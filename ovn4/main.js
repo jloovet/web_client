@@ -17,7 +17,7 @@
 var form = document.getElementById("search-form");
 //lyssna på submit
 form.addEventListener("submit", function (event) {
-	alert("Testar en alert");
+	//alert("Testar en alert");
 	console.log("hej");
 	//skriv ut alla fält
 	Array.from(form.elements).forEach(element => {
@@ -31,8 +31,10 @@ form.addEventListener("submit", function (event) {
 	// Objekt för att hantera AJAX
 	var omdbAPI = new XMLHttpRequest();
 	// Den URL vi ska använda oss av (obs. att denna har förvalt "the revenant")
-	//var omdbURL = "http://www.omdbapi.com/?t=the%20revenant&type=movie&apikey=41059430";
-	var omdbURL = buildURL(this.elements.query.value);
+	//var omdbURL = "https://www.omdbapi.com/?t=batman&type=movie&apikey=41059430";
+	//var omdbURL = "https://www.omdbapi.com/?s=batman&type=movie&apikey=41059430";
+	// s = flera svar och då funkar ej loopen
+	var omdbURL = buildURL(this.elements.query.value, false);
 
 
 	// Vad vill vi göra när vi fått ett svar?
@@ -40,14 +42,16 @@ form.addEventListener("submit", function (event) {
 		// Konvertera resultatet från JSON
 		var result = JSON.parse(this.responseText);
 		// Skriv ut resultatet
-		console.log(result);
+		console.log("RES: " + result[0]);
 
-		//itate json objects
+		//itate json objects, la till [0] för första array vid search
+		result = result.Search;
 		for (var key in result) {
 			if (result.hasOwnProperty(key)) {
 				console.log(key + " -> " + result[key]);
+				addText(result[key].Title);
 				if (key == "Title") {
-					addText(result[key]);
+					addText(result[key].value);
 				}
 			}
 		}
@@ -69,9 +73,33 @@ form.addEventListener("submit", function (event) {
 	event.preventDefault();
 });
 
-function buildURL(search) {
-	return "http://www.omdbapi.com/?t=the%20" + search + "&type=movie&apikey=41059430";
+function buildURL(searchString, exactTitle) {
+	if (exactTitle) 
+		return "https://www.omdbapi.com/?t=" + searchString + "&type=movie&apikey=41059430";
+	else
+		return "https://www.omdbapi.com/?s=" + searchString + "&type=movie&apikey=41059430";
 }
+
+function parseJSON(result, exactTitle) {
+	if (exactTitle) {
+		for (var key in result) {
+			if (result.hasOwnProperty(key)) {
+				if (key == "Title") {
+					addText(result[key].value);
+				}
+			}
+		}
+	} else {
+		result = result.Search;
+		for (var key in result) {
+			if (result.hasOwnProperty(key)) {
+				addText(result[key].Title);
+			}
+		}
+
+	}
+}
+
 
 function addText(text) {
 	const node = document.createElement("h1");
