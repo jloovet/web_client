@@ -9,10 +9,9 @@ body {
     text-align: center;
 }
 
-
 /* skapar ram med mjuka kanter, runt text */
-.ram {border-style:
-    ridge;
+.ram {
+    border-style:ridge;
     border-radius:5px;
 }    
 

@@ -105,10 +105,11 @@ function parseJSON(result, exactTitle) {
 			}
 		}
 	} else {
+		var i = 0;
 		for (var key in result) {
 			if (result.hasOwnProperty(key)) {
 				//addText(result[key].Title);
-				addTableRow(result[key].Title, result[key].Year, result[key].imdbID, result[key].Poster);
+				addTableRow(i++, result[key].Title, result[key].Year, result[key].imdbID, result[key].Poster);
 			}
 		}
 
@@ -123,23 +124,44 @@ function addText(text) {
 	document.getElementById("result").appendChild(node);
 }
 
-function addTableRow(title, year, imdbID, poster) {
+function addTableRow(rownumb, title, year, imdbID, poster) {
 	var table = document.getElementById("myTable");
 	var row = table.insertRow(1);
 	var cell1 = row.insertCell(0);
 	var cell2 = row.insertCell(1);
 	var cell3 = row.insertCell(2);
 	var cell4 = row.insertCell(3);	
+	var cell5 = row.insertCell(4);	
 	cell1.innerHTML = title;
 	cell2.innerHTML = year;
 	cell3.innerHTML = imdbID;
 
 	//var link = '<a href="localhost:8080/getDetails/' +'"></a>';
-	//cell4.innerHTML = link;
+	var link  = '<a href="https://m.media-amazon.com/images/M/MV5BOTY4YjI2N2MtYmFlMC00ZjcyLTg3YjEtMDQyM2ZjYzQ5YWFkXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg">Go to Movie Poster</a>';
+	cell4.innerHTML = link;
 
-	cell4.innerHTML = poster;
+	//let button = document.createElement('button');
+	//cell5.innerHTML = button;
+
+	/*
+	let button = document.createElement('button');
+	button.id = "but_" + rownumb;
+	button.class = "rowbutton";
+	button.addEventListener('onclick', aTest);
+	cell5.appendChild(button);
+	*/
+
+
+	//cell5.innerHTML = '<button id = but_' +rownumb+ ' class="rowbutton" onclick="aTest(this);"> Show more information </button>';
+	cell5.innerHTML = '<button id = "' +title+ '" class="rowbutton" onclick="aTest(this);"> Show more information </button>';
+
 
 	//lägg till en "show grade"-knapp som sista kolumn och visa i popup (eller i samma kolumn som knapp)
+}
+
+
+function aTest(but) {
+	alert("YYu pressed the button " + but.id);
 }
 
 function clearTable() {
