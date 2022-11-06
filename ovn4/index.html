@@ -3,19 +3,41 @@
 
 <head>
 	<meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="style.css">    
+	<link rel="stylesheet" type="text/css" href="style.css">
 	<title>Övning 4</title>
 </head>
 <!-- Sökformulär -->
 <form action="" method="get" id="search-form">
-    Movie: <input type="text" name="query">
-    <button type="submit">Search</button>
+	Movie: <input type="text" name="query">
+	<button type="submit">Search</button>
 </form>
 
 <!-- Här placerar vi vårt resultat -->
 <div class="mydiv" id="result">
-
 </div>
+
+<div class="ram">
+	<p>Sökresultat:</p>
+	<table id="myTable" class="table1">
+
+		<tr>
+			<th>Title</th>
+			<th>year</th>
+			<th>IMDB id</th>
+			<th>Poster</th>
+
+		</tr>
+		<tr>
+			<td>Erik Olsson</td>
+			<td>VD</td>
+			<td>xxxxxx</td>			
+			<!-- mailto: gör att webb-klient öppnas då man klickar på mailadress -->
+			<td><a href="https://m.media-amazon.com/images/M/MV5BOTY4YjI2N2MtYmFlMC00ZjcyLTg3YjEtMDQyM2ZjYzQ5YWFkXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg
+				">Go to Movie Poster</a></td>
+	</table>
+</div>
+
+
 
 <script src="main.js"></script>
 

@@ -1,7 +1,31 @@
+body {
+    background-color: #DBF9FC;
+}
 
 .mydiv {
     background-color: #dff0d8;
     border-color: #98B98B;
-	border: 5px outset red;
-	text-align: center;
+    border: 5px outset red;
+    text-align: center;
+}
+
+
+/* skapar ram med mjuka kanter, runt text */
+.ram {border-style:
+    ridge;
+    border-radius:5px;
+}    
+
+/* Fixa tabell */
+table.table1, td {
+    border:1px solid black;
+    border-collapse:collapse;
+}
+
+table.table1 th {
+    text-align:left;
+}
+
+table.table1 th,td {
+    padding:5px;
 }

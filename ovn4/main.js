@@ -17,14 +17,18 @@
 var form = document.getElementById("search-form");
 //lyssna på submit
 form.addEventListener("submit", function (event) {
-	//alert("Testar en alert");
-	console.log("hej");
 	//skriv ut alla fält
 	Array.from(form.elements).forEach(element => {
 		if (element.type == "text") {
 			console.log(element.value);
 		}
 	});
+
+	if (this.elements.query.value == "") {
+		alert("You must add a search string!");
+		return;
+	} 
+
 	console.log(this.elements.query.value);
 
 
@@ -40,12 +44,21 @@ form.addEventListener("submit", function (event) {
 	// Vad vill vi göra när vi fått ett svar?
 	omdbAPI.addEventListener("load", function () {
 		// Konvertera resultatet från JSON
+
+		console.log("responseText: " + this.responseText);
+		if (this.responseText.includes("Movie not found")) {
+			alert("No movies found for current search string!");
+			return;
+		}
+
 		var result = JSON.parse(this.responseText);
 		// Skriv ut resultatet
-		console.log("RES: " + result[0]);
+		console.log("RES: " + result);
 
 		//itate json objects, la till [0] för första array vid search
 		result = result.Search;
+		parseJSON(result, false);
+		/*
 		for (var key in result) {
 			if (result.hasOwnProperty(key)) {
 				console.log(key + " -> " + result[key]);
@@ -55,6 +68,7 @@ form.addEventListener("submit", function (event) {
 				}
 			}
 		}
+		*/
 
 	});
 
@@ -81,6 +95,7 @@ function buildURL(searchString, exactTitle) {
 }
 
 function parseJSON(result, exactTitle) {
+	clearTable() 
 	if (exactTitle) {
 		for (var key in result) {
 			if (result.hasOwnProperty(key)) {
@@ -90,10 +105,10 @@ function parseJSON(result, exactTitle) {
 			}
 		}
 	} else {
-		result = result.Search;
 		for (var key in result) {
 			if (result.hasOwnProperty(key)) {
-				addText(result[key].Title);
+				//addText(result[key].Title);
+				addTableRow(result[key].Title, result[key].Year, result[key].imdbID, result[key].Poster);
 			}
 		}
 
@@ -106,6 +121,33 @@ function addText(text) {
 	const textnode = document.createTextNode(text);
 	node.appendChild(textnode);
 	document.getElementById("result").appendChild(node);
+}
+
+function addTableRow(title, year, imdbID, poster) {
+	var table = document.getElementById("myTable");
+	var row = table.insertRow(1);
+	var cell1 = row.insertCell(0);
+	var cell2 = row.insertCell(1);
+	var cell3 = row.insertCell(2);
+	var cell4 = row.insertCell(3);	
+	cell1.innerHTML = title;
+	cell2.innerHTML = year;
+	cell3.innerHTML = imdbID;
+
+	//var link = '<a href="localhost:8080/getDetails/' +'"></a>';
+	//cell4.innerHTML = link;
+
+	cell4.innerHTML = poster;
+
+	//lägg till en "show grade"-knapp som sista kolumn och visa i popup (eller i samma kolumn som knapp)
+}
+
+function clearTable() {
+	var table = document.getElementById("myTable");
+	var rowCount = table.rows.length;
+	for (var i = rowCount - 1; i > 0; i--) {
+		table.deleteRow(i);
+	}
 }
 
 
