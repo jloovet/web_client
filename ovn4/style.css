@@ -33,12 +33,15 @@ body {
     float: left;
 }
 
-
 .table2 {
     table-layout: auto;
     width: 30%; 
     background-color: yellow;
     float: right;
+}
+
+.table2 th  {
+    text-align: center;
 }
 
 .table2 tr :first-child  {

@@ -55,7 +55,7 @@ form.addEventListener("submit", function (event) {
 
 		//itate json objects, la till [0] för första array vid search
 		result = result.Search;
-		parseJSON(result, false);
+		parseJSON(result);
 		/*
 		for (var key in result) {
 			if (result.hasOwnProperty(key)) {
@@ -77,8 +77,6 @@ form.addEventListener("submit", function (event) {
 	// Skicka förfrågan
 	omdbAPI.send();
 
-	addText("En film");
-
 
 
 	//hindra sidan från att laddas om
@@ -92,35 +90,17 @@ function buildURL(searchString, exactTitle) {
 		return "https://www.omdbapi.com/?s=" + searchString + "&type=movie&apikey=41059430";
 }
 
-function parseJSON(result, exactTitle) {
+function parseJSON(result) {
 	clearMovieTable()
-	if (exactTitle) {
-		for (var key in result) {
-			if (result.hasOwnProperty(key)) {
-				if (key == "Title") {
-					addText(result[key].value);
-				}
-			}
-		}
-	} else {
-		var i = 0;
-		for (var key in result) {
-			if (result.hasOwnProperty(key)) {
-				//addText(result[key].Title);
-				addTableRow(i++, result[key].Title, result[key].Year, result[key].imdbID, result[key].Poster);
-			}
-		}
 
+	var i = 0;
+	for (var key in result) {
+		if (result.hasOwnProperty(key)) {
+			addTableRow(i++, result[key].Title, result[key].Year, result[key].imdbID, result[key].Poster);
+		}
 	}
 }
 
-
-function addText(text) {
-	const node = document.createElement("h1");
-	const textnode = document.createTextNode(text);
-	node.appendChild(textnode);
-	document.getElementById("result").appendChild(node);
-}
 
 function addTableRow(rownumb, title, year, imdbID, poster) {
 	var table = document.getElementById("movieTable");
@@ -163,13 +143,18 @@ function moreInfo(but) {
 }
 
 function handleDetails() {
-	//alert("got details " + this.responseText);
+	clearDetailsTable();
 	var result = JSON.parse(this.responseText);
 	//parseJSON(result, true);
 	addDetailsTableRow("Released", result.Released)
 	addDetailsTableRow("Runtime", result.Runtime)
 	addDetailsTableRow("Director", result.Director)
 	addDetailsTableRow("Actors", result.Actors)
+	addDetailsTableRow("Country", result.Country)
+	addDetailsTableRow("Awards", result.Awards)
+	addDetailsTableRow("imdbRating", result.imdbRating)
+	addDetailsTableRow("imdbVotes", result.imdbVotes)
+
 }
 
 
