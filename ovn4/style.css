@@ -2,6 +2,7 @@ body {
     background-color: #DBF9FC;
 }
 
+
 .mydiv {
     background-color: #dff0d8;
     border-color: #98B98B;
@@ -10,21 +11,51 @@ body {
 }
 
 /* skapar ram med mjuka kanter, runt text */
-.ram {
+.ramxxxx {
     border-style:ridge;
     border-radius:5px;
+    width: 1000px;
+    padding: 0;
+}    
+.ram2 {
+    border-style:ridge;
+    border-radius:5px;
+    float: right;
+    width: 600px;
+    padding: 0;
 }    
 
-/* Fixa tabell */
-table.table1, td {
-    border:1px solid black;
-    border-collapse:collapse;
+
+.table1 {
+    table-layout: auto;
+    width: 70%;  
+    background-color: white;
+    float: left;
 }
 
-table.table1 th {
+
+.table2 {
+    table-layout: auto;
+    width: 30%; 
+    background-color: yellow;
+    float: right;
+}
+
+.table2 tr :first-child  {
+    font-weight: bold;
+}
+
+
+/* Fixa tabell */
+table th, td {
+    border:1px solid black;
+}
+
+table th {
     text-align:left;
 }
 
-table.table1 th,td {
+table th,td {
     padding:5px;
 }
+

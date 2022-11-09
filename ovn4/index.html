@@ -4,6 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="icon" type="image/x-icon" href="favicon.ico">	
 	<title>Övning 4</title>
 </head>
 <!-- Sökformulär -->
@@ -17,29 +18,23 @@
 </div>
 
 <div class="ram">
-	<p>Sökresultat:</p>
-	<table id="myTable" class="table1">
-
+	<p class="makeMeBold">Sökresultat:</p>
+	<table id="movieTable" class="table1">
 		<tr>
 			<th>Title</th>
 			<th>year</th>
 			<th>IMDB id</th>
 			<th>Poster</th>
-
+			<th>Action</th>
 		</tr>
-		<tr>
-			<td>Erik Olsson</td>
-			<td>VD</td>
-			<td>xxxxxx</td>			
-			<!-- mailto: gör att webb-klient öppnas då man klickar på mailadress -->
-			<td><a href="https://m.media-amazon.com/images/M/MV5BOTY4YjI2N2MtYmFlMC00ZjcyLTg3YjEtMDQyM2ZjYzQ5YWFkXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg
-				">Go to Movie Poster</a></td>
-			<td><button type="button" id="send">send</button></td>	
 	</table>
 </div>
 
-
-
+<table id="detailsTable" class="table2">
+	<tr>
+		<th id="headId" colspan="2">Detailed information about a movie</th>
+	</tr>
+</table>
 <script src="main.js"></script>
 
 </html>
