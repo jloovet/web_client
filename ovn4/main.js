@@ -93,9 +93,12 @@ function addTableRow(rownumb, title, year, imdbID, poster) {
 	cell2.innerHTML = year;
 	cell3.innerHTML = imdbID;
 	//se till att poster öppnas i ny flik mha target="_blank"
-	var link = '<a href=' + poster + ' target="_blank">Link to Movie Poster</a>';
-	
-	cell4.innerHTML = link;
+	if (poster == "N/A") {
+		cell4.innerHTML = poster;
+	} else {
+		var link = '<a href=' + poster + ' target="_blank">Link to Movie Poster</a>';	
+		cell4.innerHTML = link;	
+	}
 	cell5.innerHTML = '<button id = "' + title + '" class="rowbutton" onclick="moreInfo(this);"> Show more information </button>';
 }
 
