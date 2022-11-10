@@ -8,15 +8,7 @@ h1 {
     font-family: cursive;
 }
 
-/* skapar ram med mjuka kanter, runt text */
-.ramxxxx {
-    border-style: ridge;
-    border-radius: 5px;
-    width: 1000px;
-    padding: 0;
-}
-
-
+/* placerar tab till vänster */
 .table1 {
     table-layout: auto;
     width: 70%;
@@ -24,6 +16,7 @@ h1 {
     float: left;
 }
 
+/* placerar tab till höger */
 .table2 {
     table-layout: auto;
     width: 30%;

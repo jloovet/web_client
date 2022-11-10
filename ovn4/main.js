@@ -16,34 +16,41 @@
 var form = document.getElementById("search-form");
 //lyssna på submit
 form.addEventListener("submit", function (event) {
+	
 	//skriv ut alla fält
+	/*
 	Array.from(form.elements).forEach(element => {
 		if (element.type == "text") {
 			console.log(element.value);
 		}
 	});
+	*/
 
 	if (this.elements.query.value == "") {
-		alert("You must add a search string!");
+		alert("You must type a search string!");
 		return;
 	}
 
-	console.log(this.elements.query.value);
 
 	// Objekt för att hantera AJAX
 	var omdbAPI = new XMLHttpRequest();
 	var omdbURL = buildURL(this.elements.query.value, false);
 	// hantera svar
 	omdbAPI.addEventListener("load", function () {
-		console.log("responseText: " + this.responseText);
 		if (this.responseText.includes("Movie not found")) {
 			alert("No movies found for current search string!");
 			return;
 		}
+		if (this.responseText.includes("Too many results")) {
+			alert("Too many results - Try another search string!");
+			return;
+		}
+		
 
 		var result = JSON.parse(this.responseText);
 	
 		result = result.Search;
+		
 		parseJSON(result);
 	});
 
@@ -64,6 +71,7 @@ function buildURL(searchString, exactTitle) {
 
 function parseJSON(result) {
 	clearMovieTable();
+	clearDetailsTable();
 	var i = 0;
 	for (var key in result) {
 		if (result.hasOwnProperty(key)) {
@@ -103,7 +111,7 @@ function addDetailsTableRow(col1, col2) {
 
 
 function moreInfo(but) {
-	//alert("YYu pressed the button " + but.id);
+	clearDetailsTable();
 	document.getElementById("headId").innerHTML = but.id;
 
 	var omdbAPI2 = new XMLHttpRequest();
@@ -114,7 +122,6 @@ function moreInfo(but) {
 }
 
 function handleDetails() {
-	clearDetailsTable();
 	var result = JSON.parse(this.responseText);
 	addDetailsTableRow("Released", result.Released)
 	addDetailsTableRow("Runtime", result.Runtime)
@@ -140,6 +147,7 @@ function clearMovieTable() {
 }
 
 function clearDetailsTable() {
+	document.getElementById("headId").innerHTML = "Detailed information about a movie";
 	var table = document.getElementById("detailsTable");
 	try {
 		var rowCount = table.rows.length;
