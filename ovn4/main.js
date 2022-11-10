@@ -12,7 +12,6 @@
  */
 
 
-
 // hämta form
 var form = document.getElementById("search-form");
 //lyssna på submit
@@ -31,18 +30,11 @@ form.addEventListener("submit", function (event) {
 
 	console.log(this.elements.query.value);
 
-
 	// Objekt för att hantera AJAX
 	var omdbAPI = new XMLHttpRequest();
-	// Den URL vi ska använda oss av (obs. att denna har förvalt "the revenant")
-	//var omdbURL = "https://www.omdbapi.com/?t=batman&type=movie&apikey=41059430";
-	//var omdbURL = "https://www.omdbapi.com/?s=batman&type=movie&apikey=41059430";
-	// s = flera svar och då funkar ej loopen
 	var omdbURL = buildURL(this.elements.query.value, false);
-	// Vad vill vi göra när vi fått ett svar?
+	// hantera svar
 	omdbAPI.addEventListener("load", function () {
-		// Konvertera resultatet från JSON
-
 		console.log("responseText: " + this.responseText);
 		if (this.responseText.includes("Movie not found")) {
 			alert("No movies found for current search string!");
@@ -50,34 +42,14 @@ form.addEventListener("submit", function (event) {
 		}
 
 		var result = JSON.parse(this.responseText);
-		// Skriv ut resultatet
-		console.log("RES: " + result);
-
-		//itate json objects, la till [0] för första array vid search
+	
 		result = result.Search;
 		parseJSON(result);
-		/*
-		for (var key in result) {
-			if (result.hasOwnProperty(key)) {
-				console.log(key + " -> " + result[key]);
-				addText(result[key].Title);
-				if (key == "Title") {
-					addText(result[key].value);
-				}
-			}
-		}
-		*/
-
 	});
 
-
-
-	// Ange vilken metod (get) samt URL vi ska skicka med
 	omdbAPI.open("get", omdbURL, true);
 	// Skicka förfrågan
 	omdbAPI.send();
-
-
 
 	//hindra sidan från att laddas om
 	event.preventDefault();
@@ -91,8 +63,7 @@ function buildURL(searchString, exactTitle) {
 }
 
 function parseJSON(result) {
-	clearMovieTable()
-
+	clearMovieTable();
 	var i = 0;
 	for (var key in result) {
 		if (result.hasOwnProperty(key)) {
@@ -113,10 +84,10 @@ function addTableRow(rownumb, title, year, imdbID, poster) {
 	cell1.innerHTML = title;
 	cell2.innerHTML = year;
 	cell3.innerHTML = imdbID;
-
-	var link = '<a href="https://m.media-amazon.com/images/M/MV5BOTY4YjI2N2MtYmFlMC00ZjcyLTg3YjEtMDQyM2ZjYzQ5YWFkXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg">Go to Movie Poster</a>';
+	//se till att poster öppnas i ny flik mha target="_blank"
+	var link = '<a href=' + poster + ' target="_blank">Link to Movie Poster</a>';
+	
 	cell4.innerHTML = link;
-
 	cell5.innerHTML = '<button id = "' + title + '" class="rowbutton" onclick="moreInfo(this);"> Show more information </button>';
 }
 
@@ -145,7 +116,6 @@ function moreInfo(but) {
 function handleDetails() {
 	clearDetailsTable();
 	var result = JSON.parse(this.responseText);
-	//parseJSON(result, true);
 	addDetailsTableRow("Released", result.Released)
 	addDetailsTableRow("Runtime", result.Runtime)
 	addDetailsTableRow("Director", result.Director)
@@ -154,9 +124,7 @@ function handleDetails() {
 	addDetailsTableRow("Awards", result.Awards)
 	addDetailsTableRow("imdbRating", result.imdbRating)
 	addDetailsTableRow("imdbVotes", result.imdbVotes)
-
 }
-
 
 
 function clearMovieTable() {
