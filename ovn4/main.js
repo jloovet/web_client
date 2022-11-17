@@ -1,22 +1,19 @@
+"use strict";
+
 /** 
 * Namn:    Johan Lööv
 * Datorid: an8492
 *
+* Uppgift 4
+* =========
 */
-
-"use strict";
-
-/**
- * Uppgift 4.1
- * ===========
- */
 
 
 // hämta form
 var form = document.getElementById("search-form");
 //lyssna på submit
 form.addEventListener("submit", function (event) {
-	
+
 	//skriv ut alla fält
 	/*
 	Array.from(form.elements).forEach(element => {
@@ -45,12 +42,12 @@ form.addEventListener("submit", function (event) {
 			alert("Too many results - Try another search string!");
 			return;
 		}
-		
+
 
 		var result = JSON.parse(this.responseText);
-	
+
 		result = result.Search;
-		
+
 		parseJSON(result);
 	});
 
@@ -96,8 +93,8 @@ function addTableRow(rownumb, title, year, imdbID, poster) {
 	if (poster == "N/A") {
 		cell4.innerHTML = poster;
 	} else {
-		var link = '<a href=' + poster + ' target="_blank">Link to Movie Poster</a>';	
-		cell4.innerHTML = link;	
+		var link = '<a href=' + poster + ' target="_blank">Link to Movie Poster</a>';
+		cell4.innerHTML = link;
 	}
 	cell5.innerHTML = '<button id = "' + title + '" class="rowbutton" onclick="moreInfo(this);"> Show more information </button>';
 }
@@ -144,7 +141,7 @@ function clearMovieTable() {
 		for (var i = rowCount - 1; i > 0; i--) {
 			table.deleteRow(i);
 		}
-	} catch (error) { 
+	} catch (error) {
 		//if table got no rows obj yet, we end up here}
 	}
 }
@@ -157,7 +154,7 @@ function clearDetailsTable() {
 		for (var i = rowCount - 1; i > 0; i--) {
 			table.deleteRow(i);
 		}
-	} catch (error) { 
+	} catch (error) {
 		//if table got no rows obj yet, we end up here}
 	}
 
