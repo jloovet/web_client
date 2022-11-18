@@ -11,7 +11,20 @@
 <body>
   <div id="root"></div>
 
+
+
   <script type="text/babel">
+
+    //kan ligga i en TodoList.js och importeras... 
+    const Header = () => {
+      return (
+        <header>
+          <h1>todos</h1>
+        </header>
+      )
+    }
+
+
     //kan ligga i en TodoContainer.js och importeras... 
     class TodoContainer extends React.Component {
       state = {
@@ -34,22 +47,46 @@
         ]
       };
 
-            render() {
-              return (
-                <div>
-                  <h1>Hello from Create React App!!</h1>
-                  <p>I am in a React Component!</p>
-                </div>
-              )
-            }
-          }
-      
-        ReactDOM.render(
-          <React.StrictMode>
-            <TodoContainer />
-          </React.StrictMode>,
-          document.getElementById("root")
+      render() {
+        return (
+          <div>
+            <Header />
+            <TodoList todos={this.state.todos} />
+          </div>
+        );
+      }
+    }
+
+    //kan ligga i en TodoList.js och importeras... 
+    class TodoList extends React.Component {
+      render() {
+        return (
+          <ul>
+            {this.props.todos.map(todo => (
+              <li>{todo.title}</li>
+            ))}
+          </ul>
         )
+      }
+    }
+
+    //kan ligga i en TodoList.js och importeras... 
+    //Detta ör exempel på en Function Component
+    function TodoItem(props) {
+      return (
+        <li>
+          <input type="checkbox" /> {this.props.todo.title}
+        </li>
+      )
+    }
+
+
+    ReactDOM.render(
+      <React.StrictMode>
+        <TodoContainer />
+      </React.StrictMode >,
+      document.getElementById("root")
+    )
 
 
   </script>
