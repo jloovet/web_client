@@ -47,11 +47,15 @@
         ]
       };
 
+      handleChange = () => {
+        console.log("clicked");
+      };
+
       render() {
         return (
           <div>
             <Header />
-            <TodoList todos={this.state.todos} />
+            <TodoList todos={this.state.todos} handleChangeProps={this.handleChange}/>
           </div>
         );
       }
@@ -63,19 +67,27 @@
         return (
           <ul>
             {this.props.todos.map(todo => (
-              <li>{todo.title}</li>
+              TodoItem(todo)
+              //<TodoItem key={todo.id} todo={todo} />
+              //<TodoItem key={todo.id} todo={todo} handleChangeProps={this.props.handleChangeProps}/>             
             ))}
           </ul>
         )
       }
     }
 
-    //kan ligga i en TodoList.js och importeras... 
+    //kan ligga i en TodiItem.js och importeras... 
     //Detta ör exempel på en Function Component
-    function TodoItem(props) {
+    //hmm kanske skall pröva att ha den som en klass istället ?
+    function TodoItem(todo) {
       return (
         <li>
-          <input type="checkbox" /> {this.props.todo.title}
+          <input
+            type="checkbox"
+            checked={todo.completed}
+            onChange={() => console.log("clicked")}
+          />
+          {todo.title}
         </li>
       )
     }
