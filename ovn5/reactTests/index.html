@@ -88,11 +88,31 @@
       };
       */
 
+      /*
+      addTodoItem = title => {
+        console.log(title);
+      };
+      */
+      addTodoItem = title => {
+        const newTodo = {
+          id: 4,
+          title: title,
+          completed: false
+        };
+        this.setState({
+          todos: [...this.state.todos, newTodo]
+        });
+      };
+
       render() {
         return (
           <div>
             <Header />
-            <TodoList todos={this.state.todos} handleChangeProps={this.handleChange} deleteTodoProps={this.delTodo} />
+            <InputTodo addTodoProps={this.addTodoItem} />
+            <TodoList
+              todos={this.state.todos}
+              handleChangeProps={this.handleChange}
+              deleteTodoProps={this.delTodo} />
           </div>
         );
       }
@@ -104,7 +124,7 @@
         return (
           <ul>
             {this.props.todos.map(todo => (
-              //TodoItem(todo)  //om funk 
+              //TodoItem(todo)  //om funk, (då man kör hoks)
               <TodoItem
                 key={todo.id}
                 todo={todo}
@@ -132,6 +152,44 @@
             </button>
             {this.props.todo.title}
           </li>
+        )
+      }
+    }
+
+    //kan ligga i en InputTodo.js och importeras... 
+    class InputTodo extends React.Component {
+
+      state = {
+        title: ""
+      };
+
+      //kan hantera flera text-fält, tack tillägget name="title" nedan
+      onChange = e => {
+        this.setState({
+          [e.target.name]: e.target.value,
+        })
+      }
+
+      handleSubmit = e => {
+        e.preventDefault();
+        this.props.addTodoProps(this.state.title);
+        this.setState({
+          title: ""
+        });
+      };
+
+      render() {
+        return (
+          <form onSubmit={this.handleSubmit}>
+            <input
+              type="text"
+              placeholder="Add todo..."
+              value={this.state.title}
+              name="title"
+              onChange={this.onChange}
+            />
+            <button>Submit</button>
+          </form>
         )
       }
     }
