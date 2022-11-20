@@ -60,12 +60,39 @@
           }),
         }))
       };
+      /***** fung också
+      handleChange = (id) => {
+        this.setState(prevState => ({
+          todos: prevState.todos.map(todo => {
+            if (todo.id === id) {
+              todo.completed = !todo.completed
+            }
+            return todo
+          }),
+        }))
+      };
+      ******/
+
+      delTodo = id => {
+        this.setState({
+          todos: [
+            ...this.state.todos.filter(todo => {
+              return todo.id !== id;
+            })
+          ]
+        });
+      };
+      /*
+      delTodo = id => {
+        console.log("deleted", id);
+      };
+      */
 
       render() {
         return (
           <div>
             <Header />
-            <TodoList todos={this.state.todos} handleChangeProps={this.handleChange} />
+            <TodoList todos={this.state.todos} handleChangeProps={this.handleChange} deleteTodoProps={this.delTodo} />
           </div>
         );
       }
@@ -77,9 +104,13 @@
         return (
           <ul>
             {this.props.todos.map(todo => (
-              //TodoItem(todo)  //om funk -byt till klass och kör 3e alt
-              //<TodoItem key={todo.id} todo={todo} />
-              <TodoItem key={todo.id} todo={todo} handleChangeProps={this.props.handleChangeProps} />
+              //TodoItem(todo)  //om funk 
+              <TodoItem
+                key={todo.id}
+                todo={todo}
+                handleChangeProps={this.props.handleChangeProps}
+                deleteTodoProps={this.props.deleteTodoProps}
+              />
             ))}
           </ul>
         )
@@ -96,6 +127,9 @@
               checked={this.props.todo.completed}
               onChange={() => this.props.handleChangeProps(this.props.todo.id)}
             />
+            <button onClick={() => this.props.deleteTodoProps(this.props.todo.id)}>
+              Delete
+            </button>
             {this.props.todo.title}
           </li>
         )
