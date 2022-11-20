@@ -47,15 +47,25 @@
         ]
       };
 
-      handleChange = () => {
-        console.log("clicked");
+      handleChange = (id) => {
+        this.setState(prevState => ({
+          todos: prevState.todos.map(todo => {
+            if (todo.id === id) {
+              return {
+                ...todo,
+                completed: !todo.completed,
+              }
+            }
+            return todo
+          }),
+        }))
       };
 
       render() {
         return (
           <div>
             <Header />
-            <TodoList todos={this.state.todos} handleChangeProps={this.handleChange}/>
+            <TodoList todos={this.state.todos} handleChangeProps={this.handleChange} />
           </div>
         );
       }
@@ -67,9 +77,9 @@
         return (
           <ul>
             {this.props.todos.map(todo => (
-              TodoItem(todo)
+              //TodoItem(todo)  //om funk -byt till klass och kör 3e alt
               //<TodoItem key={todo.id} todo={todo} />
-              //<TodoItem key={todo.id} todo={todo} handleChangeProps={this.props.handleChangeProps}/>             
+              <TodoItem key={todo.id} todo={todo} handleChangeProps={this.props.handleChangeProps} />
             ))}
           </ul>
         )
@@ -77,21 +87,20 @@
     }
 
     //kan ligga i en TodiItem.js och importeras... 
-    //Detta ör exempel på en Function Component
-    //hmm kanske skall pröva att ha den som en klass istället ?
-    function TodoItem(todo) {
-      return (
-        <li>
-          <input
-            type="checkbox"
-            checked={todo.completed}
-            onChange={() => console.log("clicked")}
-          />
-          {todo.title}
-        </li>
-      )
+    class TodoItem extends React.Component {
+      render() {
+        return (
+          <li>
+            <input
+              type="checkbox"
+              checked={this.props.todo.completed}
+              onChange={() => this.props.handleChangeProps(this.props.todo.id)}
+            />
+            {this.props.todo.title}
+          </li>
+        )
+      }
     }
-
 
     ReactDOM.render(
       <React.StrictMode>
