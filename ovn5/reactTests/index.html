@@ -8,20 +8,41 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.1.0/uuidv4.min.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="App.css">
 </head>
+
 
 <body>
   <div id="root"></div>
 
-
-
   <script type="text/babel">
 
-    //kan ligga i en TodoList.js och importeras... 
+    //import "./App.css" -fick flytta denna till head
+
+    //kan ligga i en Header.js och importeras... La till  inline styling i h1
     const Header = () => {
+
+      const headerStyle = {
+        padding: "20px 0",
+        lineHeight: "1.5em",
+      }
+
       return (
-        <header>
-          <h1>todos</h1>
+        <header style={headerStyle}>
+          <h1
+            style={{
+              fontSize: "6rem",
+              fontWeight: "600",
+              marginBottom: "2rem",
+              lineHeight: "1em",
+              color: "#ececec",
+              textTransform: "lowercase",
+              textAlign: "center",
+            }}
+          >
+            todos
+          </h1>
         </header>
       )
     }
@@ -108,13 +129,15 @@
 
       render() {
         return (
-          <div>
-            <Header />
-            <InputTodo addTodoProps={this.addTodoItem} />
-            <TodoList
-              todos={this.state.todos}
-              handleChangeProps={this.handleChange}
-              deleteTodoProps={this.delTodo} />
+          <div className="container">
+            <div className="inner">
+              <Header />
+              <InputTodo addTodoProps={this.addTodoItem} />
+              <TodoList
+                todos={this.state.todos}
+                handleChangeProps={this.handleChange}
+                deleteTodoProps={this.delTodo} />
+            </div>
           </div>
         );
       }
@@ -142,6 +165,14 @@
     //kan ligga i en TodiItem.js och importeras... 
     class TodoItem extends React.Component {
       render() {
+
+        const completedStyle = {
+          fontStyle: "italic",
+          color: "#595959",
+          opacity: 0.4,
+          textDecoration: "line-through",
+        }
+
         return (
           <li>
             <input
@@ -152,11 +183,14 @@
             <button onClick={() => this.props.deleteTodoProps(this.props.todo.id)}>
               Delete
             </button>
-            {this.props.todo.title}
+            <span style={this.props.todo.completed ? completedStyle : null}>
+              {this.props.todo.title}
+            </span>
           </li>
         )
       }
     }
+
 
     //kan ligga i en InputTodo.js och importeras... 
     class InputTodo extends React.Component {
@@ -186,19 +220,22 @@
 
       render() {
         return (
-          <form onSubmit={this.handleSubmit}>
+          <form onSubmit={this.handleSubmit} className="form-container">
             <input
               type="text"
+              className="input-text"
               placeholder="Add todo..."
               value={this.state.title}
               name="title"
               onChange={this.onChange}
             />
-            <button>Submit</button>
+            <button className="input-submit">Submit</button>
           </form>
         )
       }
     }
+
+
 
     ReactDOM.render(
       <React.StrictMode>
