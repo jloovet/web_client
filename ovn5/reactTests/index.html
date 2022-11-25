@@ -164,8 +164,14 @@
 
     //kan ligga i en TodiItem.js och importeras... 
     class TodoItem extends React.Component {
-      render() {
 
+
+      //får inte denna att anropas :(
+      handleEditing = () => {
+        console.log("edit mode activated")
+      }
+
+      render() {
         const completedStyle = {
           fontStyle: "italic",
           color: "#595959",
@@ -173,19 +179,25 @@
           textDecoration: "line-through",
         }
 
+        //"destructure" the todo and get variables from it
+        const { completed, id, title } = this.props.todo
+
         return (
           <li>
-            <input
-              type="checkbox"
-              checked={this.props.todo.completed}
-              onChange={() => this.props.handleChangeProps(this.props.todo.id)}
-            />
-            <button onClick={() => this.props.deleteTodoProps(this.props.todo.id)}>
-              Delete
-            </button>
-            <span style={this.props.todo.completed ? completedStyle : null}>
-              {this.props.todo.title}
-            </span>
+            <div onDoubleClick={this.handleEditing}>   
+              <input
+                type="checkbox"
+                checked={this.props.todo.completed}
+                onChange={() => this.props.handleChangeProps(id)}
+              //onChange={() => this.props.handleChangeProps(this.props.todo.id)} -before adding "destructure"
+              />
+              <button onClick={() => this.props.deleteTodoProps(id)}>
+                Delete
+              </button>
+              <span style={completed ? completedStyle : null}>
+                {title}
+              </span>
+            </div>
           </li>
         )
       }
