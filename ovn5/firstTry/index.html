@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>React Tutorial</title>
+  <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.1.0/uuidv4.min.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="App.css">
+</head>
+
+
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+
+    //import "./App.css" -fick flytta denna till head
+
+    //kan ligga i en Header.js och importeras... La till  inline styling i h1
+    const Header = () => {
+      const headerStyle = {
+        padding: "20px 0",
+        lineHeight: "1.5em",
+      }
+
+      return (
+        <header style={headerStyle}>
+          <h1
+            style={{
+              fontSize: "6rem",
+              fontWeight: "600",
+              marginBottom: "2rem",
+              lineHeight: "1em",
+              color: "black",
+              textAlign: "left",
+            }}
+          >
+            Mitt Lag
+          </h1>
+        </header>
+      )
+    }
+
+
+    //kan ligga i en TodoContainer.js och importeras... 
+    class TodoContainer extends React.Component {
+      state = {
+        todos: [
+          {
+            id: uuidv4(),
+            title: "Setup development environment",
+            completed: true
+          },
+          {
+            id: uuidv4(),
+            title: "Develop website and add content",
+            completed: false
+          },
+          {
+            id: uuidv4(),
+            title: "Deploy to live server",
+            completed: false
+          }
+        ]
+      };
+
+      handleChange = (id) => {
+        this.setState(prevState => ({
+          todos: prevState.todos.map(todo => {
+            if (todo.id === id) {
+              return {
+                ...todo,
+                completed: !todo.completed,
+              }
+            }
+            return todo
+          }),
+        }))
+      };
+
+      delTodo = id => {
+        this.setState({
+          todos: [
+            ...this.state.todos.filter(todo => {
+              return todo.id !== id;
+            })
+          ]
+        });
+      };
+
+      addTodoItem = title => {
+        const newTodo = {
+          id: uuidv4(),
+          title: title,
+          completed: false
+        };
+        this.setState({
+          todos: [...this.state.todos, newTodo]
+        });
+      };
+
+      setUpdate = (updatedTitle, id) => {
+        this.setState({
+          todos: this.state.todos.map(todo => {
+            if (todo.id === id) {
+              todo.title = updatedTitle
+            }
+            return todo
+          }),
+        })
+      }
+
+      render() {
+        return (
+          <div className="container">
+            <div className="inner">
+              <Header />
+              <TodoList
+                todos={this.state.todos}
+                handleChangeProps={this.handleChange}
+                deleteTodoProps={this.delTodo}
+                setUpdate={this.setUpdate}
+              />
+              <br></br>
+              <h2>Lägg till ny spelare:</h2>
+              <InputTodo addTodoProps={this.addTodoItem} />
+
+            </div>
+          </div>
+        );
+      }
+    }
+
+    //kan ligga i en TodoList.js och importeras... 
+    class TodoList extends React.Component {
+      render() {
+        return (
+          <table>
+            <tr>
+              <th>Column one</th>
+              <th>Column two</th>
+            </tr>
+            {this.props.todos.map(todo => (
+              //TodoItem(todo)  //om funk, (då man kör hoks)
+              <TodoItem
+                key={todo.id}
+                todo={todo}
+                handleChangeProps={this.props.handleChangeProps}
+                deleteTodoProps={this.props.deleteTodoProps}
+                setUpdate={this.props.setUpdate}
+              />
+            ))}
+          </table>
+        )
+      }
+    }
+
+    //kan ligga i en TodiItem.js och importeras... 
+    class TodoItem extends React.Component {
+
+      state = {
+        editing: false,
+      }
+
+      handleEditing = () => {
+        this.setState({
+          editing: true,
+        })
+      }
+
+      handleUpdatedDone = event => {
+        console.log(event.key)
+        if (event.key === "Enter") {
+          this.setState({ editing: false })
+        }
+      }
+
+      render() {
+        const completedStyle = {
+          fontStyle: "italic",
+          color: "#595959",
+          opacity: 0.4,
+          textDecoration: "line-through",
+        }
+
+        //"destructure" the todo and get variables from it
+        const { completed, id, title } = this.props.todo
+
+
+        //hantera edit-fältet
+        let viewMode = {}
+        let editMode = {}
+        if (this.state.editing) {
+          viewMode.display = "none"
+        } else {
+          editMode.display = "none"
+        }
+
+
+        return (
+          <tr>
+            <td className="item">
+              <div onDoubleClick={this.handleEditing} style={viewMode}>
+                <input
+                  type="checkbox"
+                  checked={this.props.todo.completed}
+                  onChange={() => this.props.handleChangeProps(id)}
+                //onChange={() => this.props.handleChangeProps(this.props.todo.id)} -before adding "destructure"
+                />
+                <button onClick={() => this.props.deleteTodoProps(id)}>
+                  Delete
+                </button>
+                <span style={completed ? completedStyle : null}>
+                  {title}
+                </span>
+              </div>
+              <input
+                type="text"
+                style={editMode}
+                className="textInput"
+                value={title}
+                onChange={e => {
+                  this.props.setUpdate(e.target.value, id)
+                }}
+                onKeyDown={this.handleUpdatedDone}
+              />
+            </td>
+            <td>
+              <button  onClick={this.handleEditing} class="changebutton"> Ändra </button>
+              <button class="delbutton"> Ta bort </button>
+              </td>
+          </tr>
+        )
+      }
+    }
+
+
+    //kan ligga i en InputTodo.js och importeras... 
+    class InputTodo extends React.Component {
+
+      state = {
+        title: ""
+      };
+
+      //kan hantera flera text-fält, tack tillägget name="title" nedan
+      onChange = e => {
+        this.setState({
+          [e.target.name]: e.target.value,
+        })
+      }
+
+      handleSubmit = e => {
+        e.preventDefault()
+        if (this.state.title.trim()) {
+          this.props.addTodoProps(this.state.title)
+          this.setState({
+            title: "",
+          })
+        } else {
+          alert("Please write item")
+        }
+      }
+
+      render() {
+        return (
+          <form onSubmit={this.handleSubmit} className="form-container">
+            <label for="spelare">Spelarens namn:</label><br></br>
+            <input
+              type="text"
+              className="input-text-x"
+              placeholder="Add todo..."
+              value={this.state.title}
+              name="title"
+              onChange={this.onChange}
+            />
+            <br></br>
+            <label for="position">Spelarens position:</label><br></br>
+            <select id="positioner" name="positioner">
+              <option value="vback">Vämnsterback</option>
+              <option value="hback">Högerback</option>
+              <option value="mback">Mittback</option>
+              <option value="libro">Libro</option>
+            </select>
+            <br></br>
+            <label for="gradering">Gradering:</label><br></br>
+            <input type="radio" id="ok" name="ok" value="ok" checked />
+            <label for="ok">Okej</label><br></br>
+            <input type="radio" id="lovande" name="lovande" value="lovande" />
+            <label for="lovande">Lovande</label><br></br>
+            <input type="radio" id="enast" name="enast" value="enast" />
+            <label for="enast">Enastående!</label><br></br>
+
+            <button className="input-submit-x">Submit</button>
+          </form>
+        )
+      }
+    }
+
+
+
+    ReactDOM.render(
+      <React.StrictMode>
+        <TodoContainer />
+      </React.StrictMode >,
+      document.getElementById("root")
+    )
+
+
+  </script>
+</body>
+
+</html>
