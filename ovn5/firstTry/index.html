@@ -52,18 +52,22 @@
         todos: [
           {
             id: uuidv4(),
-            title: "Setup development environment",
-            position: "false sdsd"
+            title: "Karl Fredsriksson",
+            position: "Vänsterback",
+            gradering: "Okej"
           },
           {
             id: uuidv4(),
-            title: "Develop website and add content",
-            position: "sddfalse"
+            title: "Martin Svensson",
+            position: "Högerback",
+            gradering: "Okej"
           },
           {
             id: uuidv4(),
-            title: "Deploy to live server",
-            position: "aaa false"
+            title: "Nils Levander",
+            position: "Libro",
+            gradering: "Lovande"
+
           }
         ]
       };
@@ -93,11 +97,12 @@
 
 
 
-      addTodoItem = (title, position) => {
+      addTodoItem = (title, position, gradering) => {
         const newTodo = {
           id: uuidv4(),
           title: title,
-          position: position
+          position: position,
+          gradering: gradering
         };
         this.setState({
           todos: [...this.state.todos, newTodo]
@@ -207,7 +212,7 @@
         }
 
         //"destructure" the todo and get variables from it
-        const { position, id, title } = this.props.todo
+        const { position, id, title, gradering } = this.props.todo
 
 
         //hantera edit-fältet
@@ -245,7 +250,7 @@
               {position}
             </td>
             <td>
-              {position}
+              {gradering}
             </td>
 
             <td>
@@ -264,7 +269,8 @@
 
       state = {
         title: "",
-        position: ""
+        position: "",
+        gradering: ""
       };
 
       /*
@@ -290,7 +296,7 @@
           alert("Ange spelarens position")
           return
         }
-        this.props.addTodoProps(this.state.title, this.state.position)
+        this.props.addTodoProps(this.state.title, this.state.position, this.state.gradering)
 
         //rensa i title
         this.setState({
@@ -323,11 +329,11 @@
             </select>
             <br></br>
             <label for="gradering">Gradering:</label><br></br>
-            <input type="radio" id="ok" name="gradering" value="ok" checked />
+            <input onChange={this.onChange} type="radio" id="ok" name="gradering" value="Okej" checked />
             <label for="ok">Okej</label><br></br>
-            <input type="radio" id="lovande" name="gradering" value="lovande" />
+            <input onChange={this.onChange} type="radio" id="lovande" name="gradering" value="Lovande" />
             <label for="lovande">Lovande</label><br></br>
-            <input type="radio" id="enast" name="gradering" value="enast" />
+            <input onChange={this.onChange} type="radio" id="enast" name="gradering" value="Enastående!" />
             <label for="enast">Enastående!</label><br></br>
 
             <button className="input-submit-x">Submit</button>
