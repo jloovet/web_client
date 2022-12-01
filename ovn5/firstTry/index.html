@@ -91,6 +91,8 @@
         });
       };
 
+
+
       addTodoItem = (title, position) => {
         const newTodo = {
           id: uuidv4(),
@@ -101,6 +103,21 @@
           todos: [...this.state.todos, newTodo]
         });
       };
+
+      /*
+      addTodoItem = title => {
+        const newTodo = {
+          id: uuidv4(),
+          title: title,
+          completed: "nada"
+        };
+        this.setState({
+          todos: [...this.state.todos, newTodo]
+        });
+      };
+*/
+
+
 
       setUpdate = (updatedTitle, id) => {
         this.setState({
@@ -139,20 +156,23 @@
       render() {
         return (
           <table>
-            <tr>
-              <th>Spelarnamn</th>
-              <th>Postion</th>
-            </tr>
-            {this.props.todos.map(todo => (
-              //TodoItem(todo)  //om funk, (då man kör hoks)
-              <TodoItem
-                key={todo.id}
-                todo={todo}
-                handleChangeProps={this.props.handleChangeProps}
-                deleteTodoProps={this.props.deleteTodoProps}
-                setUpdate={this.props.setUpdate}
-              />
-            ))}
+            <tbody>
+              <tr>
+                <th>Spelarnamn</th>
+                <th>Postion</th>
+                <th>Gradering</th>
+              </tr>
+              {this.props.todos.map(todo => (
+                //TodoItem(todo)  //om funk, (då man kör hoks)
+                <TodoItem
+                  key={todo.id}
+                  todo={todo}
+                  handleChangeProps={this.props.handleChangeProps}
+                  deleteTodoProps={this.props.deleteTodoProps}
+                  setUpdate={this.props.setUpdate}
+                />
+              ))}
+            </tbody>
           </table>
         )
       }
@@ -204,11 +224,11 @@
           <tr>
             <td className="item">
               <div style={viewMode}>
-               
+
                 <span style={false ? completedStyle : null}>
                   {title}
                 </span>
-                
+
               </div>
               <input
                 type="text"
@@ -225,8 +245,12 @@
               {position}
             </td>
             <td>
-              <button  onClick={this.handleEditing} class="changebutton"> Ändra </button>
-              <button onClick={() => this.props.deleteTodoProps(id)} class="delbutton"> Ta bort </button>
+              {position}
+            </td>
+
+            <td>
+              <button onClick={this.handleEditing} className="changebutton"> Ändra </button>
+              <button onClick={() => this.props.deleteTodoProps(id)} className="delbutton"> Ta bort </button>
             </td>
           </tr>
         )
@@ -237,10 +261,17 @@
     //kan ligga i en InputTodo.js och importeras... 
     class InputTodo extends React.Component {
 
+
       state = {
         title: "",
         position: ""
       };
+
+      /*
+      state = {
+        title: ""
+      };
+      */
 
       //kan hantera flera text-fält, tack tillägget name="title" nedan
       onChange = e => {
@@ -251,16 +282,24 @@
 
       handleSubmit = e => {
         e.preventDefault()
-        if (this.state.title.trim()) {
-          this.props.addTodoProps(this.state.title)
-          this.props.addTodoProps(this.state.position)
-          this.setState({
-            title: "", position: ""
-          })
-        } else {
-          alert("Please write item")
+        if (this.state.title.trim() == "") {
+          alert("Ange spelarens namn")
+          return
         }
+        if (this.state.position == "" || this.state.position == "Nada") {
+          alert("Ange spelarens position")
+          return
+        }
+        this.props.addTodoProps(this.state.title, this.state.position)
+
+        //rensa i title
+        this.setState({
+          title: "",
+        })
       }
+
+
+
 
       render() {
         return (
@@ -274,8 +313,9 @@
               onChange={this.onChange}
             />
             <br></br>
-            <label for="position">Spelarens position:</label><br></br>
-            <select onChange={this.onChange} id="positioner" name="positioner">
+            <label for="positioner">Spelarens position:</label><br></br>
+            <select onChange={this.onChange} id="positioner" name="position">
+              <option value="Nada">---</option>
               <option value="Vänsterback">Vänsterback</option>
               <option value="Högerback">Högerback</option>
               <option value="Mittback">Mittback</option>
@@ -283,11 +323,11 @@
             </select>
             <br></br>
             <label for="gradering">Gradering:</label><br></br>
-            <input type="radio" id="ok" name="ok" value="ok" checked />
+            <input type="radio" id="ok" name="gradering" value="ok" checked />
             <label for="ok">Okej</label><br></br>
-            <input type="radio" id="lovande" name="lovande" value="lovande" />
+            <input type="radio" id="lovande" name="gradering" value="lovande" />
             <label for="lovande">Lovande</label><br></br>
-            <input type="radio" id="enast" name="enast" value="enast" />
+            <input type="radio" id="enast" name="gradering" value="enast" />
             <label for="enast">Enastående!</label><br></br>
 
             <button className="input-submit-x">Submit</button>
