@@ -188,18 +188,28 @@
 
       state = {
         editing: false,
+        btnText: "Ändra"
+
       }
 
       handleEditing = () => {
-        this.setState({
-          editing: true,
-        })
+        if (this.state.editing) {
+          this.setState({
+            editing: false,
+            btnText: "Ändra"
+          })
+        } else {
+          this.setState({
+            editing: true,
+            btnText: "Spara"
+          })
+        }
       }
 
       handleUpdatedDone = event => {
-        console.log(event.key)
+        //console.log(event.key)
         if (event.key === "Enter") {
-          this.setState({ editing: false })
+          this.setState({ editing: false, btnText: "Ändra" })
         }
       }
 
@@ -254,7 +264,7 @@
             </td>
 
             <td>
-              <button onClick={this.handleEditing} className="changebutton"> Ändra </button>
+              <button style={{fontWeight: this.state.editing ? "bold" : "normal"}} onClick={this.handleEditing} className="changebutton"> {this.state.btnText}</button>
               <button onClick={() => this.props.deleteTodoProps(id)} className="delbutton"> Ta bort </button>
             </td>
           </tr>
@@ -303,7 +313,6 @@
           title: "",
         })
       }
-
 
 
 
