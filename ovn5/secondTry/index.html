@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Öving 5</title>
+  <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.1.0/uuidv4.min.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="App.css">
+</head>
+
+
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+
+    //kan ligga i en Header.js och importeras... La till  inline styling i h1
+    const Header = () => {
+      const headerStyle = {
+        padding: "20px 0",
+        lineHeight: "1.5em",
+      }
+
+      return (
+        <header style={headerStyle}>
+          <h1
+            style={{
+              fontSize: "6rem",
+              fontWeight: "600",
+              marginBottom: "2rem",
+              lineHeight: "1em",
+              color: "black",
+              textAlign: "left",
+            }}
+          >
+            Mitt Lag
+          </h1>
+        </header>
+      )
+    }
+
+
+    //kan ligga i en AllaSpelare.js och importeras... 
+    class AllaSpelare extends React.Component {
+      state = {
+        spelarDB: [
+          {
+            id: uuidv4(),
+            spelare: "Karl Fredsriksson",
+            position: "Vänsterback",
+            gradering: "Okej"
+          },
+          {
+            id: uuidv4(),
+            spelare: "Martin Svensson",
+            position: "Högerback",
+            gradering: "Okej"
+          },
+          {
+            id: uuidv4(),
+            spelare: "Nils Levander",
+            position: "Libro",
+            gradering: "Lovande"
+
+          },
+          {
+            id: uuidv4(),
+            spelare: "Sven-hugo Ericsson",
+            position: "Målvalt",
+            gradering: "Enastående!"
+
+          },
+          {
+            id: uuidv4(),
+            spelare: "Jacob smedberg",
+            position: "Vänster mittfältare",
+            gradering: "Lovande"
+
+          },
+          {
+            id: uuidv4(),
+            spelare: "Peter Brorsson Dalgren",
+            position: "Vänsterytter",
+            gradering: "Okey"
+
+          },
+          {
+            id: uuidv4(),
+            spelare: "Mats Ekgren",
+            position: "Högerytter",
+            gradering: "Okey"
+
+          },
+          {
+            id: uuidv4(),
+            spelare: "Johan blixten Andersson ",
+            position: "Höger mittfältare",
+            gradering: "Lovande"
+
+          }
+        ]
+      };
+     
+      handleChange = (id) => {
+        this.setState(prevState => ({
+          spelarDB: prevState.spelarDB.map(spelare => {
+            if (spelare.id === id) {
+              return {
+                ...spelare,
+              }
+            }
+            return spelare
+          }),
+        }))
+      };
+
+      delspelare = id => {
+        this.setState({
+          spelarDB: [
+            ...this.state.spelarDB.filter(spelare => {
+              return spelare.id !== id;
+            })
+          ]
+        });
+      };
+
+
+
+      addSpelare = (spelare, position, gradering) => {
+        const newspelare = {
+          id: uuidv4(),
+          spelare: spelare,
+          position: position,
+          gradering: gradering
+        };
+        this.setState({
+          spelarDB: [...this.state.spelarDB, newspelare]
+        });
+      };
+
+      setUpdate = (updatedSpelare, id) => {
+        this.setState({
+          spelarDB: this.state.spelarDB.map(spelare => {
+            if (spelare.id === id) {
+              spelare.spelare = updatedSpelare
+            }
+            return spelare
+          }),
+        })
+      }
+
+      render() {
+        return (
+          <div className="container">
+            <div className="inner">
+              <Header />
+              <SpelarTabell
+              spelarDB={this.state.spelarDB}
+                handleChangeProps={this.handleChange}
+                deleteSpelareProps={this.delspelare}
+                setUpdate={this.setUpdate}
+              />
+              <br></br>
+              <h2>Lägg till ny spelare:</h2>
+              <NySpelare addSpelareProps={this.addSpelare} />
+
+            </div>
+          </div>
+        );
+      }
+    }
+
+    //kan ligga i en SpelarTabell.js och importeras... 
+    class SpelarTabell extends React.Component {
+      render() {
+        return (
+          <table>
+            <tbody>
+              <tr>
+                <th>Spelarnamn</th>
+                <th>Postion</th>
+                <th>Gradering</th>
+              </tr>
+              {this.props.spelarDB.map(spelare => (
+                //SpelareITabell(spelare)  //om funk, (då man kör hoks)
+                <SpelareITabell
+                  key={spelare.id}
+                  spelare={spelare}
+                  handleChangeProps={this.props.handleChangeProps}
+                  deleteSpelareProps={this.props.deleteSpelareProps}
+                  setUpdate={this.props.setUpdate}
+                />
+              ))}
+            </tbody>
+          </table>
+        )
+      }
+    }
+
+    //kan ligga i en SpelareITabell.js och importeras... 
+    class SpelareITabell extends React.Component {
+
+      state = {
+        editing: false,
+        btnText: "Ändra"
+
+      }
+
+      handleEditing = () => {
+        if (this.state.editing) {
+          this.setState({
+            editing: false,
+            btnText: "Ändra"
+          })
+        } else {
+          this.setState({
+            editing: true,
+            btnText: "Spara"
+          })
+        }
+      }
+
+      handleUpdatedDone = event => {
+        //console.log(event.key)
+        if (event.key === "Enter") {
+          this.setState({ editing: false, btnText: "Ändra" })
+        }
+      }
+
+      render() {
+        const completedStyle = {
+          fontStyle: "italic",
+          color: "#595959",
+          opacity: 0.4,
+          textDecoration: "line-through",
+        }
+
+        //"destructure" the spelare and get variables from it
+        const { position, id, spelare, gradering } = this.props.spelare
+
+
+        //hantera edit-fältet
+        let viewMode = {}
+        let editMode = {}
+        if (this.state.editing) {
+          viewMode.display = "none"
+        } else {
+          editMode.display = "none"
+        }
+
+
+        return (
+          <tr>
+            <td className="item">
+              <div style={viewMode}>
+
+                <span style={false ? completedStyle : null}>
+                  {spelare}
+                </span>
+
+              </div>
+              <input
+                type="text"
+                style={editMode}
+                className="textInput"
+                value={spelare}
+                onChange={e => {
+                  this.props.setUpdate(e.target.value, id)
+                }}
+                onKeyDown={this.handleUpdatedDone}
+              />
+            </td>
+            <td>
+              {position}
+            </td>
+            <td>
+              {gradering}
+            </td>
+
+            <td>
+              <button style={{fontWeight: this.state.editing ? "bold" : "normal"}} onClick={this.handleEditing} className="changebutton"> {this.state.btnText}</button>
+              <button onClick={() => this.props.deleteSpelareProps(id)} className="delbutton"> Ta bort </button>
+            </td>
+          </tr>
+        )
+      }
+    }
+
+
+    //kan ligga i en NySpelare.js och importeras... 
+    class NySpelare extends React.Component {
+
+
+      state = {
+        spelare: "",
+        position: "",
+        gradering: "Okej"
+      };
+
+
+      //kan hantera flera text-fält, tack tillägget name="spelare" nedan
+      onChange = e => {
+        this.setState({
+          [e.target.name]: e.target.value,
+        })
+      }
+
+      handleSubmit = e => {
+        e.preventDefault()
+        if (this.state.spelare.trim() == "") {
+          alert("Ange spelarens namn")
+          return
+        }
+        if (this.state.position == "" || this.state.position == "Nada") {
+          alert("Ange spelarens position")
+          return
+        }
+        this.props.addSpelareProps(this.state.spelare, this.state.position, this.state.gradering)
+
+        //cleara state
+        this.setState({
+          spelare: "",
+          gradering: "Okej"
+        })
+      }
+
+
+
+      render() {
+        return (
+          <form onSubmit={this.handleSubmit} className="form-container">
+            <label>Spelarens namn:</label><br></br>
+            <input
+              type="text"
+              className="input-text-x"
+              value={this.state.spelare}
+              name="spelare"
+              onChange={this.onChange}
+            />
+            <br></br>
+            <label>Spelarens position:</label><br></br>
+            <select onChange={this.onChange} id="positioner" name="position">
+              <option value="Nada">---</option>
+              <option value="Målvakt">Målvakt</option>
+              <option value="Vänsterback">Vänsterback</option>
+              <option value="Högerback">Högerback</option>
+              <option value="Mittback">Mittback</option>
+              <option value="Vänster mittfältare">Vänster mittfältare</option>
+              <option value="Höger mittfältare">Höger mittfältare</option>
+              <option value="Vänsterytter">Vänsterytter</option>
+              <option value="Högerytter">Högerytter</option>
+              <option value="Libro">Libro</option>
+            </select>
+            <br></br>
+            <label>Gradering:</label><br></br>
+            <input onChange={this.onChange} type="radio" id="ok" name="gradering" value="Okej" checked />
+            <label>Okej</label><br></br>
+            <input onChange={this.onChange} type="radio" id="lovande" name="gradering" value="Lovande" />
+            <label>Lovande</label><br></br>
+            <input onChange={this.onChange} type="radio" id="enast" name="gradering" value="Enastående!" />
+            <label>Enastående!  </label>
+
+            <button className="input-submit-x">Submit</button>
+          </form>
+        )
+      }
+    }
+
+
+
+    ReactDOM.render(
+      <React.StrictMode>
+        <AllaSpelare />
+      </React.StrictMode >,
+      document.getElementById("root")
+    )
+
+
+  </script>
+</body>
+
+</html>
