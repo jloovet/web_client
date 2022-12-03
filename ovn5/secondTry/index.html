@@ -13,36 +13,11 @@
 </head>
 
 
-<body>
+<body style="background-image: url('fotboll3.jpg'); background-size: cover;">
+  
   <div id="root"></div>
 
   <script type="text/babel">
-
-    //kan ligga i en Header.js och importeras... La till  inline styling i h1
-    const Header = () => {
-      const headerStyle = {
-        padding: "20px 0",
-        lineHeight: "1.5em",
-      }
-
-      return (
-        <header style={headerStyle}>
-          <h1
-            style={{
-              fontSize: "6rem",
-              fontWeight: "600",
-              marginBottom: "2rem",
-              lineHeight: "1em",
-              color: "black",
-              textAlign: "left",
-            }}
-          >
-            Mitt Lag
-          </h1>
-        </header>
-      )
-    }
-
 
     //kan ligga i en AllaSpelare.js och importeras... 
     class AllaSpelare extends React.Component {
@@ -157,15 +132,14 @@
         return (
           <div className="container">
             <div className="inner">
-              <Header />
+              <h1 className="sidTopp">Lagbyggaren - Knattetränarens bäste vän</h1>
               <SpelarTabell
               spelarDB={this.state.spelarDB}
                 handleChangeProps={this.handleChange}
                 deleteSpelareProps={this.delspelare}
                 setUpdate={this.setUpdate}
               />
-              <br></br>
-              <h2>Lägg till ny spelare:</h2>
+              <br></br> <br></br>
               <NySpelare addSpelareProps={this.addSpelare} />
 
             </div>
@@ -333,6 +307,7 @@
       render() {
         return (
           <form onSubmit={this.handleSubmit} className="form-container">
+            <label className="form-header"> ---------- Lägg till ny spelare -------- </label><br></br>
             <label>Spelarens namn:</label><br></br>
             <input
               type="text"
@@ -364,7 +339,7 @@
             <input onChange={this.onChange} type="radio" id="enast" name="gradering" value="Enastående!" />
             <label>Enastående!  </label>
 
-            <button className="input-submit-x">Submit</button>
+            <button className="input-submit-x">Lägg till</button>
           </form>
         )
       }
