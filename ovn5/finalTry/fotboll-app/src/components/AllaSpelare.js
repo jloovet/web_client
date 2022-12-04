@@ -112,6 +112,28 @@ class AllaSpelare extends React.Component {
     })
   }
 
+  setUpdatePos = (updatedSpelarePos, id) => {
+    this.setState({
+      spelarDB: this.state.spelarDB.map(spelare => {
+        if (spelare.id === id) {
+          spelare.position = updatedSpelarePos
+        }
+        return spelare
+      }),
+    })
+  }
+
+  setUpdateGrad = (updatedSpelareGrad, id) => {
+    this.setState({
+      spelarDB: this.state.spelarDB.map(spelare => {
+        if (spelare.id === id) {
+          spelare.gradering = updatedSpelareGrad
+        }
+        return spelare
+      }),
+    })
+  }
+
   render() {
     return (
       <div className="container">
@@ -122,6 +144,8 @@ class AllaSpelare extends React.Component {
             handleChangeProps={this.handleChange}
             deleteSpelareProps={this.delspelare}
             setUpdate={this.setUpdate}
+            setUpdatePos={this.setUpdatePos}
+            setUpdateGrad={this.setUpdateGrad}
           />
           <br></br> <br></br>
           <NySpelare addSpelareProps={this.addSpelare} />

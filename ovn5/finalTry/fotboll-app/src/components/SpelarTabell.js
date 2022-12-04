@@ -19,6 +19,8 @@ class SpelarTabell extends React.Component {
                 handleChangeProps={this.props.handleChangeProps}
                 deleteSpelareProps={this.props.deleteSpelareProps}
                 setUpdate={this.props.setUpdate}
+                setUpdatePos={this.props.setUpdatePos}
+                setUpdateGrad={this.props.setUpdateGrad}
               />
             ))}
           </tbody>
