@@ -29,7 +29,7 @@ class AllaSpelare extends React.Component {
       {
         id: uuidv4(),
         spelare: "Sven-hugo Ericsson",
-        position: "Målvalt",
+        position: "Målvakt",
         gradering: "Enastående!"
 
       },
