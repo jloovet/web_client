@@ -11,6 +11,8 @@
 
   <link rel="stylesheet" type="text/css" href="App.css">
   <link rel="icon" type="image/x-icon" href="favicon.png">
+  <!-- Add icon library -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 
@@ -26,58 +28,10 @@
         spelarDB: [
           {
             id: uuidv4(),
-            spelare: "Karl Fredsriksson",
-            position: "Vänsterback",
-            gradering: "Okej"
+            spelare: "Some item",
+            position: "Some quantity",
+            gradering: "Some sort of comment"
           },
-          {
-            id: uuidv4(),
-            spelare: "Martin Svensson",
-            position: "Högerback",
-            gradering: "Okej"
-          },
-          {
-            id: uuidv4(),
-            spelare: "Nils Levander",
-            position: "Libro",
-            gradering: "Lovande"
-
-          },
-          {
-            id: uuidv4(),
-            spelare: "Sven-hugo Ericsson",
-            position: "Målvakt",
-            gradering: "Enastående!"
-
-          },
-          {
-            id: uuidv4(),
-            spelare: "Jacob smedberg",
-            position: "Vänster mittfältare",
-            gradering: "Lovande"
-
-          },
-          {
-            id: uuidv4(),
-            spelare: "Peter Brorsson Dalgren",
-            position: "Vänsterytter",
-            gradering: "Okej"
-
-          },
-          {
-            id: uuidv4(),
-            spelare: "Mats Ekgren",
-            position: "Högerytter",
-            gradering: "Okej"
-
-          },
-          {
-            id: uuidv4(),
-            spelare: "Johan blixten Andersson ",
-            position: "Höger mittfältare",
-            gradering: "Lovande"
-
-          }
         ]
       };
 
@@ -109,15 +63,27 @@
         [
           {
             id: uuidv4(),
-            spelare: "Melon",
-            position: "10",
-            gradering: "Gott gott"
+            spelare: "butter 600 g",
+            position: "1",
+            gradering: ""
           },
           {
             id: uuidv4(),
-            spelare: "mjölk",
+            spelare: "milk 1 liter",
             position: "5",
-            gradering: "Nyttigt"
+            gradering: "Should be lactose free"
+          },
+          {
+            id: uuidv4(),
+            spelare: "bread",
+            position: "1",
+            gradering: "Choose a brand with less suggar"
+          },
+          {
+            id: uuidv4(),
+            spelare: "Cheese",
+            position: "1",
+            gradering: "Cheddar or Goude"
           },
         ]
 
@@ -187,8 +153,9 @@
 
               />
               <br></br> <br></br>
-              <NySpelare addSpelareProps={this.addSpelare} />
               <BaseItems addBaseItemsProps={this.addBaseItems} />
+             <br></br> 
+              <NySpelare addSpelareProps={this.addSpelare} />
 
             </div>
           </div>
@@ -201,6 +168,7 @@
       render() {
         return (
           <table>
+            <p>YOUR TEXT HERE</p>
             <tbody>
               <tr>
                 <th>Item Name</th>
@@ -230,7 +198,7 @@
 
       state = {
         editing: false,
-        btnText: "Ändra"
+        btnText: ""
 
       }
 
@@ -238,12 +206,12 @@
         if (this.state.editing) {
           this.setState({
             editing: false,
-            btnText: "Ändra"
+            btnText: ""
           })
         } else {
           this.setState({
             editing: true,
-            btnText: "Spara"
+            btnText: "Save"
           })
         }
       }
@@ -251,7 +219,7 @@
       handleUpdatedDone = event => {
         //console.log(event.key)
         if (event.key === "Enter") {
-          this.setState({ editing: false, btnText: "Ändra" })
+          this.setState({ editing: false, btnText: "" })
         }
       }
 
@@ -342,8 +310,9 @@
             </td>
 
             <td>
-              <button style={{ fontWeight: this.state.editing ? "bold" : "normal" }} onClick={this.handleEditing} className="changebutton"> {this.state.btnText}</button>
-              <button onClick={() => this.props.deleteSpelareProps(id)} className="delbutton"> Ta bort </button>
+              <button style={{ fontWeight: this.state.editing ? "bold" : "normal" }} onClick={this.handleEditing} 
+              className="changebutton"> {this.state.btnText} <i class="fa fa-edit"></i></button>
+              <button onClick={() => this.props.deleteSpelareProps(id)} className="delbutton" > <i class="fa fa-trash"></i> </button>
             </td>
           </tr>
         )
@@ -359,7 +328,7 @@
 
       render() {
         return (
-          <button onClick={this.addAllItems} className="baseItems"> Add Base Items </button>
+          <button onClick={this.addAllItems} className="btn-baseItems"> Add Base Items </button>
         )
       }
     }
@@ -407,7 +376,7 @@
       render() {
         return (
           <form onSubmit={this.handleSubmit} className="form-container" >
-            <label className="form-header"> New Grocery Item: </label><br></br>
+            <label className="form-header"> Add new Grocery Item: </label><br></br>
             <input
               required title="Add Item Name here"
               placeholder="Item Name"
@@ -446,7 +415,7 @@
 
 
 
-            <button className="input-submit-x">Add Item</button>
+            <button className="btn-submit">Submit <i class="fa fa-save"></i></button>
           </form>
         )
       }

@@ -61,8 +61,18 @@ table {
   border-radius:10px;
 }
 
+.btn-baseItems   {
+  background-color: lightgray;
+  border-radius:5px;
+}
 
+
+.btn-submit  {
+  background-color: lightgray;
+  border-radius:3px;
+}
 
 button {
-  background-color: lightgray
+  background-color: lightgray;
+  border-radius:3px;
 }
