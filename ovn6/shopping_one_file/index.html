@@ -59,7 +59,7 @@
       };
 
 
-      testdata =
+      baseItemsData =
         [
           {
             id: uuidv4(),
@@ -88,9 +88,9 @@
         ]
 
       addBaseItems = () => {
-        console.log("ZZZZZ")
+        //add all items from array
         this.setState({
-          spelarDB: this.testdata
+          spelarDB: this.baseItemsData
         });
       };
 
@@ -150,16 +150,29 @@
                 setUpdate={this.setUpdate}
                 setUpdatePos={this.setUpdatePos}
                 setUpdateGrad={this.setUpdateGrad}
-
               />
+              <RecipeList  style={{ float: 'right' }}/>
+
+
               <br></br> <br></br>
               <BaseItems addBaseItemsProps={this.addBaseItems} />
-             <br></br> 
+              <br></br>
               <NySpelare addSpelareProps={this.addSpelare} />
 
             </div>
           </div>
         );
+      }
+    }
+
+    class RecipeList extends React.Component {
+      render() {
+        return (
+          <div class="myDiv">
+            <h2>Search for recepies</h2>
+            <p>This is some text in a div element.</p>
+          </div>
+        )
       }
     }
 
@@ -310,8 +323,8 @@
             </td>
 
             <td>
-              <button style={{ fontWeight: this.state.editing ? "bold" : "normal" }} onClick={this.handleEditing} 
-              className="changebutton"> {this.state.btnText} <i class="fa fa-edit"></i></button>
+              <button style={{ fontWeight: this.state.editing ? "bold" : "normal" }} onClick={this.handleEditing}
+                className="changebutton"> {this.state.btnText} <i class="fa fa-edit"></i></button>
               <button onClick={() => this.props.deleteSpelareProps(id)} className="delbutton" > <i class="fa fa-trash"></i> </button>
             </td>
           </tr>
@@ -321,7 +334,7 @@
 
     class BaseItems extends React.Component {
 
-     
+
       addAllItems = () => {
         this.props.addBaseItemsProps()
       }
@@ -376,7 +389,8 @@
       render() {
         return (
           <form onSubmit={this.handleSubmit} className="form-container" >
-            <label className="form-header"> Add new Grocery Item: </label><br></br>
+            <fieldset>
+            <legend>Add new Grocery Item:</legend>
             <input
               required title="Add Item Name here"
               placeholder="Item Name"
@@ -416,6 +430,7 @@
 
 
             <button className="btn-submit">Submit <i class="fa fa-save"></i></button>
+            </fieldset>
           </form>
         )
       }

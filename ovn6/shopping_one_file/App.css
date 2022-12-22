@@ -76,3 +76,31 @@ button {
   background-color: lightgray;
   border-radius:3px;
 }
+
+.recipeList {
+  border: 2px solid blue;
+  border-radius:10px;
+}
+
+.myDiv {
+  float: right;
+  border: 2px solid blue;
+  border-radius:10px;
+  background-color:rgb(108, 175, 227);
+}
+
+/* lägga title i border via <p> ? */
+.myDiv p {
+  margin-top: -0.5em;
+  margin-left: 10px;
+  background-color: white;
+  display: block;
+  width: 150px;
+}
+
+legend {
+  display: block;
+  padding-left: 2px;
+  padding-right: 2px;
+  border: none;
+}
