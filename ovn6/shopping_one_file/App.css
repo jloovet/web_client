@@ -1,0 +1,68 @@
+.sidTopp {
+  border: 2px solid blue;
+  border-radius:10px;
+  background-color: rgb(109, 188, 237);
+  font-size: 50px;
+  color: darkblue;
+  font-family: cursive;
+}
+
+.form-container {
+  border: 1px solid black;
+  width: 40%;
+  background-color: rgb(95, 200, 248);
+  padding:2px;
+  border: 2px solid blue;
+  border-radius:10px;
+}
+
+/*rounded corners*/
+.form-input {
+  padding:1px;
+  border-radius:10px;
+}
+
+
+
+.input-text::placeholder {
+  color: #000;
+}
+
+.input-submit {
+  background: transparent;
+  color: #5b5b5b;
+  text-transform: capitalize;
+  cursor: pointer;
+  font-weight: 600;
+  margin-right: 10px;
+}
+
+.input-text,
+.input-submit {
+  height: 45px;
+  outline: none;
+  border: none;
+}
+
+.textInput {
+  width: 100%;
+  border: 1px solid #dfdfdf;
+}
+
+table th,
+td {
+    border: 1px solid black;
+    background-color:rgb(108, 175, 227);
+    border-radius:3px;
+}
+
+table {
+  border: 2px solid blue;
+  border-radius:10px;
+}
+
+
+
+button {
+  background-color: lightgray
+}
