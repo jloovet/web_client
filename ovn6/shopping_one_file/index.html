@@ -91,6 +91,7 @@
         //add all items from array
         this.setState({
           spelarDB: this.baseItemsData
+          //spelarDB: [...this.state.spelarDB, this.baseItemsData]
         });
       };
 
@@ -169,6 +170,23 @@
 
 
     class RecipeList extends React.Component {
+
+      state = {
+        fetchedRecipeList: [
+          {
+            name: "Recipe Name 1",
+            details: "Recipe Details 1"
+          },
+          {
+            name: "Recipe Name 2",
+            details: "Recipe Details 2"
+          },
+        ]
+      };
+
+
+      //Note: limited to 500 calls / month (see https://rapidapi.com/apidojo/api/tasty/)
+      //create new key before handing in ovn 6!
       options = {
         method: 'GET',
         headers: {
@@ -180,18 +198,51 @@
       fetchRecipeList = () => {
         fetch('https://tasty.p.rapidapi.com/recipes/list?from=0&size=20&tags=under_30_minutes&q=milk', this.options)
           .then(response => response.json())
-          .then(response => console.log(response))
+          .then(response => this.setStateFromResponse(response))
           .catch(err => console.error(err));
       };
 
-      render() {
-        return (
-          <div class="myDiv">
-            <h2>Search for recepies</h2>
-            <button onClick={this.fetchRecipeList} className="btn-search"> Search </button>
-          </div>
-        )
-      }
+      setStateFromResponse = (responseAsJSON) => {
+        console.log("SOME RESPONSE:")
+        console.log(responseAsJSON)
+        var i = 0;
+        //buid new array from result
+        var newArray = []
+        for (var key in responseAsJSON.results) {
+          if (responseAsJSON.results.hasOwnProperty(key)) {
+            console.log(key)
+            console.log(responseAsJSON.results[key].name)
+            let obj = {
+              "name": responseAsJSON.results[key].name,
+              "details": responseAsJSON.results[key].description
+            }
+            newArray.push(obj)
+          }
+        }
+        //set array as state
+        this.setState({
+          fetchedRecipeList: newArray
+          //spelarDB: [...this.state.spelarDB, this.baseItemsData]
+        });
+
+      };
+    
+
+
+    render() {
+      return (
+        <div className="myDiv">
+          <h2>Search for recepies</h2>
+          <button onClick={this.fetchRecipeList} className="btn-search"> Search </button>
+          <ul>
+            {this.state.fetchedRecipeList.map(recepi => (
+              <li>{recepi.name}</li>
+            ))
+            }
+          </ul>
+        </div>
+      )
+    }
     }
 
     //kan ligga i en SpelarTabell.js och importeras... 
