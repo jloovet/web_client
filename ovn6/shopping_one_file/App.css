@@ -7,6 +7,11 @@
   font-family: cursive;
 }
 
+.shoppinglist { 
+  color: blue;
+}
+
+
 .form-container {
   border: 1px solid black;
   width: 40%;

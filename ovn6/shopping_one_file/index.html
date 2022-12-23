@@ -143,6 +143,7 @@
           <div className="container">
             <div className="inner">
               <h1 className="sidTopp">The Professional Grocery Shopper Tool</h1>
+              <h2 className="shoppinglist">My Grocery shopping List</h2>
               <SpelarTabell
                 spelarDB={this.state.spelarDB}
                 handleChangeProps={this.handleChange}
@@ -151,7 +152,7 @@
                 setUpdatePos={this.setUpdatePos}
                 setUpdateGrad={this.setUpdateGrad}
               />
-              <RecipeList  style={{ float: 'right' }}/>
+              <RecipeList style={{ float: 'right' }} />
 
 
               <br></br> <br></br>
@@ -165,12 +166,29 @@
       }
     }
 
+
+
     class RecipeList extends React.Component {
+      options = {
+        method: 'GET',
+        headers: {
+          'X-RapidAPI-Key': 'a97a27dba4msh0406c51ffc2c3b6p1e955djsnfc510facd835',
+          'X-RapidAPI-Host': 'tasty.p.rapidapi.com'
+        }
+      };
+
+      fetchRecipeList = () => {
+        fetch('https://tasty.p.rapidapi.com/recipes/list?from=0&size=20&tags=under_30_minutes&q=milk', this.options)
+          .then(response => response.json())
+          .then(response => console.log(response))
+          .catch(err => console.error(err));
+      };
+
       render() {
         return (
           <div class="myDiv">
             <h2>Search for recepies</h2>
-            <p>This is some text in a div element.</p>
+            <button onClick={this.fetchRecipeList} className="btn-search"> Search </button>
           </div>
         )
       }
@@ -181,7 +199,6 @@
       render() {
         return (
           <table>
-            <p>YOUR TEXT HERE</p>
             <tbody>
               <tr>
                 <th>Item Name</th>
@@ -390,46 +407,46 @@
         return (
           <form onSubmit={this.handleSubmit} className="form-container" >
             <fieldset>
-            <legend>Add new Grocery Item:</legend>
-            <input
-              required title="Add Item Name here"
-              placeholder="Item Name"
-              type="text"
-              className="form-input"
-              value={this.state.spelare}
-              name="spelare"
-              onChange={this.onChange}
-            />
+              <legend>Add new Grocery Item:</legend>
+              <input
+                required title="Add Item Name here"
+                placeholder="Item Name"
+                type="text"
+                className="form-input"
+                value={this.state.spelare}
+                name="spelare"
+                onChange={this.onChange}
+              />
 
 
-            <select onChange={this.onChange} id="positioner" name="position" required title="Add number of tems here" placeholder="quantity" className="form-input">
-              <option value="q">quantity</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-              <option value="10">10</option>
-            </select>
+              <select onChange={this.onChange} id="positioner" name="position" required title="Add number of tems here" placeholder="quantity" className="form-input">
+                <option value="q">quantity</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+              </select>
 
 
-            <input
-              required title="Add Item Name here"
-              placeholder="Comment"
-              type="text"
-              className="form-input"
-              value={this.state.gradering}
-              name="gradering"
-              onChange={this.onChange}
-            />
+              <input
+                required title="Add Item Name here"
+                placeholder="Comment"
+                type="text"
+                className="form-input"
+                value={this.state.gradering}
+                name="gradering"
+                onChange={this.onChange}
+              />
 
 
 
-            <button className="btn-submit">Submit <i class="fa fa-save"></i></button>
+              <button className="btn-submit">Submit <i class="fa fa-save"></i></button>
             </fieldset>
           </form>
         )
