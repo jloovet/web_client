@@ -152,13 +152,11 @@
                 setUpdate={this.setUpdate}
                 setUpdatePos={this.setUpdatePos}
                 setUpdateGrad={this.setUpdateGrad}
+                style={{ float: 'left' }}
               />
               <RecipeList style={{ float: 'right' }} />
-
-
-              <br></br> <br></br>
               <BaseItems addBaseItemsProps={this.addBaseItems} />
-              <br></br>
+              <br></br><br></br><br></br>
               <NySpelare addSpelareProps={this.addSpelare} />
 
             </div>
@@ -250,6 +248,7 @@
       render() {
         return (
           <table>
+            <caption>Monthly savings</caption>
             <tbody>
               <tr>
                 <th>Item Name</th>
@@ -358,16 +357,16 @@
                 onChange={e => {
                   this.props.setUpdatePos(e.target.value, id)
                 }}>
-                <option value="Nada">---</option>
-                <option value="Målvakt">Målvakt</option>
-                <option value="Vänsterback">Vänsterback</option>
-                <option value="Högerback">Högerback</option>
-                <option value="Mittback">Mittback</option>
-                <option value="Vänster mittfältare">Vänster mittfältare</option>
-                <option value="Höger mittfältare">Höger mittfältare</option>
-                <option value="Vänsterytter">Vänsterytter</option>
-                <option value="Högerytter">Högerytter</option>
-                <option value="Libro">Libro</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
               </select>
 
             </td>
@@ -378,16 +377,17 @@
                 </span>
               </div>
 
-              <select style={editMode}
+              <input
+                type="text"
+                style={editMode}
                 className="textInput"
                 value={gradering}
                 onChange={e => {
                   this.props.setUpdateGrad(e.target.value, id)
-                }}>
-                <option value="Okej">Okej</option>
-                <option value="Lovande">Lovande</option>
-                <option value="Enastående!">Enastående</option>
-              </select>
+                }}
+                onKeyDown={this.handleUpdatedDone}
+              />       
+
             </td>
 
             <td>
