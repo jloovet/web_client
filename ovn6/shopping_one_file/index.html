@@ -13,6 +13,9 @@
   <link rel="icon" type="image/x-icon" href="favicon.png">
   <!-- Add icon library -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap" rel="stylesheet">
 </head>
 
 
@@ -95,6 +98,11 @@
         });
       };
 
+
+      addQuote = () => {
+      };
+
+
       addSpelare = (spelare, position, gradering) => {
         const newspelare = {
           id: uuidv4(),
@@ -145,19 +153,24 @@
             <div className="inner">
               <h1 className="sidTopp">The Professional Grocery Shopper Tool</h1>
               <h2 className="shoppinglist">My Grocery shopping List</h2>
-              <SpelarTabell
-                spelarDB={this.state.spelarDB}
-                handleChangeProps={this.handleChange}
-                deleteSpelareProps={this.delspelare}
-                setUpdate={this.setUpdate}
-                setUpdatePos={this.setUpdatePos}
-                setUpdateGrad={this.setUpdateGrad}
-                style={{ float: 'left' }}
-              />
-              <RecipeList style={{ float: 'right' }} />
-              <BaseItems addBaseItemsProps={this.addBaseItems} />
-              <br></br><br></br><br></br>
-              <NySpelare addSpelareProps={this.addSpelare} />
+              <div id="outer-container">
+                <div id="grocery-container">
+                  <SpelarTabell
+                    spelarDB={this.state.spelarDB}
+                    handleChangeProps={this.handleChange}
+                    deleteSpelareProps={this.delspelare}
+                    setUpdate={this.setUpdate}
+                    setUpdatePos={this.setUpdatePos}
+                    setUpdateGrad={this.setUpdateGrad}
+                  />
+                  <BaseItems addBaseItemsProps={this.addBaseItems} />
+                  <QuoteFetcher addBaseItemsProps={this.addQuote} />
+
+                  <br></br><br></br><br></br>
+                  <NySpelare addSpelareProps={this.addSpelare} />
+                </div>
+                <RecipeList />
+              </div>
 
             </div>
           </div>
@@ -165,10 +178,55 @@
       }
     }
 
+    class QuoteFetcher extends React.Component {
+      state = {
+        fetchedQoute: [
+          {
+            quote: "Ett litet steg för mig men...",
+            author: "Armstrongs"
+          },
 
+        ],
+      };
+
+      //Note: limited to 500 calls / month (see https://rapidapi.com/apidojo/api/tasty/)
+      //create new key before handing in ovn 6!
+      options = {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          'X-RapidAPI-Key': 'a97a27dba4msh0406c51ffc2c3b6p1e955djsnfc510facd835',
+          'X-RapidAPI-Host': 'quotel-quotes.p.rapidapi.com'
+        },
+        body: '{}'
+      };
+
+      fetchQuote = () => {
+        fetch('https://quotel-quotes.p.rapidapi.com/quotes/random', options)
+          .then(response => response.json())
+          .then(response => console.log(response))
+          .catch(err => console.error(err));
+      };
+
+      setStateFromResponse = (responseAsJSON) => {
+        console.log("responseAsJSON.1 " + responseAsJSON.quote)
+
+        for (var key in responseAsJSON.results) {
+          if (responseAsJSON.results.hasOwnProperty(key)) {
+            console.log(key)
+            //  console.log(responseAsJSON.results[key].name)
+          }
+        }
+      };
+
+      render() {
+        return (
+          <button onClick={this.fetchQuote} className="btn-qoute"> Add a famous Qoute </button>
+        )
+      }
+    }
 
     class RecipeList extends React.Component {
-
       state = {
         fetchedRecipeList: [
           {
@@ -183,7 +241,6 @@
         searchKey: ""
       };
 
-
       //Note: limited to 500 calls / month (see https://rapidapi.com/apidojo/api/tasty/)
       //create new key before handing in ovn 6!
       options = {
@@ -194,7 +251,7 @@
         }
       };
 
-      fetchRecipeList = () => {        
+      fetchRecipeList = () => {
         fetch('https://tasty.p.rapidapi.com/recipes/list?from=0&size=20&tags=under_30_minutes&q=' + this.state.searchKey, this.options)
           .then(response => response.json())
           .then(response => this.setStateFromResponse(response))
@@ -232,14 +289,14 @@
 
       render() {
         return (
-          <div className="myDiv">
+          <div className="recipeList">
             <h2>Search for recepies</h2>
             <button onClick={this.fetchRecipeList} className="btn-search"> Search  <i class="fa fa-search"></i></button>
             <input type="text"
               className="searchText"
               name="searchKey"
               onChange={this.onChange}
-              />
+            />
             <ul>
               {this.state.fetchedRecipeList.map(recepi => (
                 <li>{recepi.name}</li>
@@ -259,7 +316,7 @@
             <caption>Monthly savings</caption>
             <tbody>
               <tr>
-                <th>Item Name</th>
+                <th>Name</th>
                 <th>Quantity</th>
                 <th>Comment</th>
               </tr>
@@ -275,6 +332,9 @@
                   setUpdateGrad={this.props.setUpdateGrad}
                 />
               ))}
+              <tr>
+                <td colspan="3"> dagens citat ....</td>
+              </tr>
             </tbody>
           </table>
         )

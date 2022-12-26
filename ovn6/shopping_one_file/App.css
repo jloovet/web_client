@@ -1,3 +1,12 @@
+
+#root {
+  margin-left:10vw;
+  margin-right:10vw;
+  background-color: white;
+  padding: 10px;
+  height: 100vh;
+}
+
 .sidTopp {
   border: 2px solid blue;
   border-radius:10px;
@@ -6,6 +15,14 @@
   color: darkblue;
   font-family: cursive;
 }
+
+
+#outer-container{
+  display: flex; /* or inline-flex */
+  justify-content: space-between;
+}
+
+
 
 .shoppinglist { 
   color: blue;
@@ -54,12 +71,19 @@
   border: 1px solid #dfdfdf;
 }
 
+table th {
+  font-weight: bold;
+}
+
 table th,
 td {
-    border: 1px solid black;
-    background-color:rgb(108, 175, 227);
-    border-radius:3px;
+  font-family: 'Caveat', cursive;
+  font-size: 20pt;
+  text-align: left;
+  padding-right: 10pt;
 }
+
+table tr:nth-child(even){background-color: #f2f2f2;}
 
 table {
   border: 2px solid blue;
@@ -82,13 +106,8 @@ button {
   border-radius:3px;
 }
 
-.recipeList {
-  border: 2px solid blue;
-  border-radius:10px;
-}
 
-.myDiv {
-  float: right;
+.recipeList {
   border: 2px solid blue;
   border-radius:10px;
   background-color:rgb(108, 175, 227);
