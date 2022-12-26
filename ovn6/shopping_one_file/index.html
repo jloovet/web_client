@@ -179,7 +179,8 @@
             name: "Recipe Name 2",
             details: "Recipe Details 2"
           },
-        ]
+        ],
+        searchKey: ""
       };
 
 
@@ -193,16 +194,14 @@
         }
       };
 
-      fetchRecipeList = () => {
-        fetch('https://tasty.p.rapidapi.com/recipes/list?from=0&size=20&tags=under_30_minutes&q=milk', this.options)
+      fetchRecipeList = () => {        
+        fetch('https://tasty.p.rapidapi.com/recipes/list?from=0&size=20&tags=under_30_minutes&q=' + this.state.searchKey, this.options)
           .then(response => response.json())
           .then(response => this.setStateFromResponse(response))
           .catch(err => console.error(err));
       };
 
       setStateFromResponse = (responseAsJSON) => {
-        console.log("SOME RESPONSE:")
-        console.log(responseAsJSON)
         var i = 0;
         //buid new array from result
         var newArray = []
@@ -222,25 +221,34 @@
           fetchedRecipeList: newArray
           //spelarDB: [...this.state.spelarDB, this.baseItemsData]
         });
-
       };
-    
 
+      onChange = e => {
+        //use name ta to update right part of state
+        this.setState({
+          [e.target.name]: e.target.value,
+        })
+      }
 
-    render() {
-      return (
-        <div className="myDiv">
-          <h2>Search for recepies</h2>
-          <button onClick={this.fetchRecipeList} className="btn-search"> Search </button>
-          <ul>
-            {this.state.fetchedRecipeList.map(recepi => (
-              <li>{recepi.name}</li>
-            ))
-            }
-          </ul>
-        </div>
-      )
-    }
+      render() {
+        return (
+          <div className="myDiv">
+            <h2>Search for recepies</h2>
+            <button onClick={this.fetchRecipeList} className="btn-search"> Search  <i class="fa fa-search"></i></button>
+            <input type="text"
+              className="searchText"
+              name="searchKey"
+              onChange={this.onChange}
+              />
+            <ul>
+              {this.state.fetchedRecipeList.map(recepi => (
+                <li>{recepi.name}</li>
+              ))
+              }
+            </ul>
+          </div>
+        )
+      }
     }
 
     //kan ligga i en SpelarTabell.js och importeras... 
@@ -386,7 +394,7 @@
                   this.props.setUpdateGrad(e.target.value, id)
                 }}
                 onKeyDown={this.handleUpdatedDone}
-              />       
+              />
 
             </td>
 
