@@ -64,6 +64,12 @@
 
       baseItemsData =
         [
+        {
+            id: uuidv4(),
+            spelare: "six-pack of beer",
+            position: "2",
+            gradering: "E.g. Budweiser (max 2.8 % alc) "
+          },
           {
             id: uuidv4(),
             spelare: "butter 600 g",
@@ -152,7 +158,6 @@
           <div className="container">
             <div className="inner">
               <h1 className="sidTopp">The Professional Grocery Shopper Tool</h1>
-              <h2 className="shoppinglist">My Grocery shopping List</h2>
               <div id="outer-container">
                 <div id="grocery-container">
                   <SpelarTabell
@@ -221,7 +226,7 @@
 
       render() {
         return (
-          <button onClick={this.fetchQuote} className="btn-qoute"> Add a famous Qoute </button>
+          <button title="Adds a random quote to the grocery list" onClick={this.fetchQuote} className="btn-qoute"> Add a famous Qoute </button>
         )
       }
     }
@@ -291,7 +296,7 @@
         return (
           <div className="recipeList">
             <h2>Search for recepies</h2>
-            <button onClick={this.fetchRecipeList} className="btn-search"> Search  <i class="fa fa-search"></i></button>
+            <button title="Search for recepies using a search string" onClick={this.fetchRecipeList} className="btn-search"> Search  <i class="fa fa-search"></i></button>
             <input type="text"
               className="searchText"
               name="searchKey"
@@ -313,7 +318,7 @@
       render() {
         return (
           <table>
-            <caption>Monthly savings</caption>
+            <caption>My Grocery shopping List:</caption>
             <tbody>
               <tr>
                 <th>Name</th>
@@ -459,9 +464,9 @@
             </td>
 
             <td>
-              <button style={{ fontWeight: this.state.editing ? "bold" : "normal" }} onClick={this.handleEditing}
+              <button title="Make changes to the item" style={{ fontWeight: this.state.editing ? "bold" : "normal" }} onClick={this.handleEditing}
                 className="changebutton"> {this.state.btnText} <i class="fa fa-edit"></i></button>
-              <button onClick={() => this.props.deleteSpelareProps(id)} className="delbutton" > <i class="fa fa-trash"></i> </button>
+              <button title="Delete the item" onClick={() => this.props.deleteSpelareProps(id)} className="delbutton" > <i class="fa fa-trash"></i> </button>
             </td>
           </tr>
         )
@@ -477,7 +482,7 @@
 
       render() {
         return (
-          <button onClick={this.addAllItems} className="btn-baseItems"> Add Base Items </button>
+          <button title="Adds some standard groceries to the grocery list" onClick={this.addAllItems} className="btn-baseItems"> Add Base Items </button>
         )
       }
     }
@@ -565,7 +570,7 @@
 
 
 
-              <button className="btn-submit">Submit <i class="fa fa-save"></i></button>
+              <button title="Adds the item to the grocery list" className="btn-submit">Submit <i class="fa fa-save"></i></button>
             </fieldset>
           </form>
         )

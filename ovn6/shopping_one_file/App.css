@@ -2,17 +2,19 @@
 #root {
   margin-left:10vw;
   margin-right:10vw;
-  background-color: white;
+  margin-top :4vw;
+  background-color: rgb(244, 239, 211);
+  opacity: 0.88;
   padding: 10px;
   height: 100vh;
 }
 
 .sidTopp {
-  border: 2px solid blue;
+  border: 2px solid  hsl(129, 82%, 11%);
   border-radius:10px;
-  background-color: rgb(109, 188, 237);
+  background-color: #d8efdc;
   font-size: 50px;
-  color: darkblue;
+  color: hsl(129, 82%, 11%);
   font-family: cursive;
 }
 
@@ -22,19 +24,15 @@
   justify-content: space-between;
 }
 
-
-
 .shoppinglist { 
   color: blue;
 }
 
-
 .form-container {
-  border: 1px solid black;
-  width: 40%;
-  background-color: rgb(95, 200, 248);
+  width: 100%;
+  background-color:   #d8efdc;  
   padding:2px;
-  border: 2px solid blue;
+  border: 2px solid  hsl(129, 82%, 11%);
   border-radius:10px;
 }
 
@@ -43,7 +41,6 @@
   padding:1px;
   border-radius:10px;
 }
-
 
 
 .input-text::placeholder {
@@ -83,11 +80,13 @@ td {
   padding-right: 10pt;
 }
 
+/* color every secont row i table*/
 table tr:nth-child(even){background-color: #f2f2f2;}
 
 table {
-  border: 2px solid blue;
+  border: 2px solid  hsl(129, 82%, 11%);
   border-radius:10px;
+  background-color: white;
 }
 
 .btn-baseItems   {
@@ -108,9 +107,9 @@ button {
 
 
 .recipeList {
-  border: 2px solid blue;
+  border: 2px solid  hsl(129, 82%, 11%);
   border-radius:10px;
-  background-color:rgb(108, 175, 227);
+  background-color:  #d8efdc;
 }
 
 /* lägga title i border via <p> ? */
@@ -127,4 +126,10 @@ legend {
   padding-left: 2px;
   padding-right: 2px;
   border: none;
+}
+
+caption {
+  font-family: 'Caveat', cursive;
+  font-size: 30pt;
+  text-align: left;
 }
