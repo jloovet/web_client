@@ -81,7 +81,7 @@ td {
 }
 
 /* color every secont row i table*/
-table tr:nth-child(even){background-color: #f2f2f2;}
+table tr:nth-child(even){background-color: hwb(0 79% 18%);}
 
 table {
   border: 2px solid  hsl(129, 82%, 11%);
@@ -89,21 +89,21 @@ table {
   background-color: white;
 }
 
-.btn-baseItems   {
+.btn-base  {
   background-color: lightgray;
   border-radius:5px;
 }
-
+.btn-print {
+  background-color: lightgray;
+  border-radius:5px;
+  float:right;
+}
 
 .btn-submit  {
   background-color: lightgray;
   border-radius:3px;
 }
 
-button {
-  background-color: lightgray;
-  border-radius:3px;
-}
 
 
 .recipeList {
@@ -132,4 +132,8 @@ caption {
   font-family: 'Caveat', cursive;
   font-size: 30pt;
   text-align: left;
+}
+
+.quote  {
+  text-shadow: 2px 2px green;
 }
