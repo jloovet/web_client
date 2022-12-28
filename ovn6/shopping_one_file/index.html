@@ -37,8 +37,9 @@
           },
         ],
         fetchedQuote: "",
+        quoteAuthor: "",
       };
-
+      s
       handleChange = (id) => {
         this.setState(prevState => ({
           spelarDB: prevState.spelarDB.map(spelare => {
@@ -122,8 +123,10 @@
       */
 
       addQuote = (quote, author) => {
+        console.log("AAA " + author)
         this.setState({
-          fetchedQuote: quote
+          fetchedQuote: quote,
+          quoteAuthor: author
         });
       };
 
@@ -181,6 +184,7 @@
                   <SpelarTabell
                     spelarDB={this.state.spelarDB}
                     fetchedQuote={this.state.fetchedQuote}
+                    quoteAuthor={this.state.quoteAuthor}
                     handleChangeProps={this.handleChange}
                     deleteSpelareProps={this.delspelare}
                     setUpdate={this.setUpdate}
@@ -205,6 +209,10 @@
     }
 
     class QuoteFetcher extends React.Component {
+      state = {
+        btnText: "Add a famous Qoute :)"
+      }
+
       //Note: limited to 500 calls / month (see https://rapidapi.com/apidojo/api/tasty/)
       //create new key before handing in ovn 6!
       options = {
@@ -225,13 +233,16 @@
       };
 
       setStateFromResponse = (responseAsJSON) => {
-        console.log("responseAsJSON.1 " + responseAsJSON.quote)
-        this.props.addQuoteProps(responseAsJSON.quote, responseAsJSON.author)
+        this.props.addQuoteProps(responseAsJSON.quote, responseAsJSON.name)
+        //finaly, change text on buttons
+        this.setState({
+          btnText: "Replace the famous Qoute :)"
+        })
       };
 
       render() {
         return (
-          <button title="Adds a random quote to the grocery list" onClick={this.fetchQuote} className="btn-base"> Add a famous Qoute :) </button>
+          <button title="Adds a random quote to the grocery list" onClick={this.fetchQuote} className="btn-base"> {this.state.btnText} </button>
         )
       }
     }
@@ -309,7 +320,9 @@
             />
             <ul>
               {this.state.fetchedRecipeList.map(recipe => (
-                <li>{recipe.name}</li>
+                <Recipe
+                  name={recipe.name}
+                />
               ))
               }
             </ul>
@@ -317,6 +330,18 @@
         )
       }
     }
+
+
+    class Recipe extends React.Component {
+
+      render() {
+        return (
+          <li>{this.props.name}</li>
+        )
+      }
+    }
+
+
 
     //kan ligga i en SpelarTabell.js och importeras... 
     class SpelarTabell extends React.Component {
@@ -343,7 +368,7 @@
                 />
               ))}
               <tr>
-                <td className="quote" colspan="3"> {this.props.fetchedQuote}</td>
+                <td title={"A quote by " + this.props.quoteAuthor} className="quote" colspan="3"> {this.props.fetchedQuote}</td>
               </tr>
             </tbody>
           </table>
