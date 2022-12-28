@@ -141,3 +141,18 @@ caption {
 ul {
   background-color: white;
 }
+ol {
+  background-color: white;
+}
+
+
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+textarea {  
+  border: 1px solid  hsl(129, 82%, 11%);
+}

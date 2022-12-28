@@ -249,16 +249,7 @@
 
     class RecipeList extends React.Component {
       state = {
-        fetchedRecipeList: [
-          {
-            name: "Recipe Name 1",
-            details: "Recipe Details 1"
-          },
-          {
-            name: "Recipe Name 2",
-            details: "Recipe Details 2"
-          },
-        ],
+        fetchedRecipeList: [],
         searchKey: ""
       };
 
@@ -287,10 +278,11 @@
           if (responseAsJSON.results.hasOwnProperty(key)) {
             console.log(key)
             console.log(responseAsJSON.results[key].name)
+            console.log(responseAsJSON.results[key].description)
             let obj = {
               "name": responseAsJSON.results[key].name,
               "details": responseAsJSON.results[key].description
-            }
+            }                                        
             newArray.push(obj)
           }
         }
@@ -318,14 +310,15 @@
               name="searchKey"
               onChange={this.onChange}
             />
-            <ul>
+            <ol>
               {this.state.fetchedRecipeList.map(recipe => (
                 <Recipe
                   name={recipe.name}
+                  details={recipe.details}
                 />
               ))
               }
-            </ul>
+            </ol>
           </div>
         )
       }
@@ -336,7 +329,14 @@
 
       render() {
         return (
-          <li>{this.props.name}</li>
+          <div>
+            <li>{this.props.name}</li>
+            <ul>
+              <li className="recipeDetails" >
+                <textarea rows="3" cols="45" readOnly={true}>{this.props.details}</textarea>
+              </li>
+            </ul>
+          </div>
         )
       }
     }
