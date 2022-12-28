@@ -14,8 +14,8 @@
   <!-- Add icon library -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap" rel="stylesheet">
 </head>
 
 
@@ -35,7 +35,8 @@
             position: "Some quantity",
             gradering: "Some sort of comment"
           },
-        ]
+        ],
+        fetchedQuote: "",
       };
 
       handleChange = (id) => {
@@ -68,7 +69,7 @@
 
       baseItemsData =
         [
-        {
+          {
             id: uuidv4(),
             spelare: "six-pack of beer",
             position: "2",
@@ -108,10 +109,23 @@
         });
       };
 
+      /*
+            addQuote = (quote, author) => {
+              const newquote= {
+                quote: quote,
+                author: author
+              };
+              this.setState({
+                fetchedQuote: newquote
+              });
+            };
+      */
 
-      addQuote = () => {
+      addQuote = (quote, author) => {
+        this.setState({
+          fetchedQuote: quote
+        });
       };
-
 
       addSpelare = (spelare, position, gradering) => {
         const newspelare = {
@@ -166,6 +180,7 @@
                 <div id="grocery-container">
                   <SpelarTabell
                     spelarDB={this.state.spelarDB}
+                    fetchedQuote={this.state.fetchedQuote}
                     handleChangeProps={this.handleChange}
                     deleteSpelareProps={this.delspelare}
                     setUpdate={this.setUpdate}
@@ -173,7 +188,7 @@
                     setUpdateGrad={this.setUpdateGrad}
                   />
                   <BaseItems addBaseItemsProps={this.addBaseItems} />
-                  <QuoteFetcher addBaseItemsProps={this.addQuote} />
+                  <QuoteFetcher addQuoteProps={this.addQuote} />
                   <button title="create a printable page" className="btn-print" onClick={this.printList} > Print <i class="fa fa-print"></i></button>
 
 
@@ -190,16 +205,6 @@
     }
 
     class QuoteFetcher extends React.Component {
-      state = {
-        fetchedQoute: [
-          {
-            quote: "Ett litet steg för mig men...",
-            author: "Armstrongs"
-          },
-
-        ],
-      };
-
       //Note: limited to 500 calls / month (see https://rapidapi.com/apidojo/api/tasty/)
       //create new key before handing in ovn 6!
       options = {
@@ -214,20 +219,14 @@
 
       fetchQuote = () => {
         fetch('https://quotel-quotes.p.rapidapi.com/quotes/random', this.options)
-        .then(response => response.json())
+          .then(response => response.json())
           .then(response => this.setStateFromResponse(response))
           .catch(err => console.error(err));
       };
 
       setStateFromResponse = (responseAsJSON) => {
         console.log("responseAsJSON.1 " + responseAsJSON.quote)
-
-        for (var key in responseAsJSON.results) {
-          if (responseAsJSON.results.hasOwnProperty(key)) {
-            console.log(key)
-            //  console.log(responseAsJSON.results[key].name)
-          }
-        }
+        this.props.addQuoteProps(responseAsJSON.quote, responseAsJSON.author)
       };
 
       render() {
@@ -301,16 +300,16 @@
       render() {
         return (
           <div className="recipeList">
-            <h2>Search for recepies</h2>
-            <button title="Search for recepies using a search string" onClick={this.fetchRecipeList} className="btn-search"> Search  <i class="fa fa-search"></i></button>
+            <h2>Search for recipes</h2>
+            <button title="Search for recipes using a search string" onClick={this.fetchRecipeList} className="btn-search"> Search  <i class="fa fa-search"></i></button>
             <input type="text"
               className="searchText"
               name="searchKey"
               onChange={this.onChange}
             />
             <ul>
-              {this.state.fetchedRecipeList.map(recepi => (
-                <li>{recepi.name}</li>
+              {this.state.fetchedRecipeList.map(recipe => (
+                <li>{recipe.name}</li>
               ))
               }
             </ul>
@@ -344,7 +343,7 @@
                 />
               ))}
               <tr>
-                <td className="quote" colspan="3"> dagens citat ....</td>
+                <td className="quote" colspan="3"> {this.props.fetchedQuote}</td>
               </tr>
             </tbody>
           </table>
