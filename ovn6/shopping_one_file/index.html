@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-<html lang="se">
 
 <head>
-  <title>Öving 5</title>
+  <title>Öving 6</title>
   <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
   <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
@@ -25,15 +24,14 @@
 
   <script type="text/babel">
 
-    //kan ligga i en AllaSpelare.js och importeras... 
     class AllGroceries extends React.Component {
       state = {
         groceryDB: [
           {
             id: uuidv4(),
-            spelare: "Some item",
-            position: "Some quantity",
-            gradering: "Some sort of comment"
+            item: "Some item",
+            quantity: "Some quantity",
+            comment: "Some sort of comment"
           },
         ],
         fetchedQuote: "She felt Britain should not be so dependent on coal. She was in favour of building up nuclear energy to break the dependence on coal, and the main opposition to nuclear came from the environment movement. Mrs. Thatcher thought she could trap them with the carbon emissions argument.",
@@ -42,22 +40,22 @@
       s
       handleChange = (id) => {
         this.setState(prevState => ({
-          groceryDB: prevState.groceryDB.map(spelare => {
-            if (spelare.id === id) {
+          groceryDB: prevState.groceryDB.map(item => {
+            if (item.id === id) {
               return {
-                ...spelare,
+                ...item,
               }
             }
-            return spelare
+            return item
           }),
         }))
       };
 
-      delspelare = id => {
+      delItem = id => {
         this.setState({
           groceryDB: [
-            ...this.state.groceryDB.filter(spelare => {
-              return spelare.id !== id;
+            ...this.state.groceryDB.filter(item => {
+              return item.id !== id;
             })
           ]
         });
@@ -72,33 +70,33 @@
         [
           {
             id: uuidv4(),
-            spelare: "six-pack of beer",
-            position: "2",
-            gradering: "E.g. Budweiser (max 2.8 % alc) "
+            item: "six-pack of beer",
+            quantity: "2",
+            comment: "E.g. Budweiser (max 2.8 % alc) "
           },
           {
             id: uuidv4(),
-            spelare: "butter 600 g",
-            position: "1",
-            gradering: ""
+            item: "butter 600 g",
+            quantity: "1",
+            comment: ""
           },
           {
             id: uuidv4(),
-            spelare: "milk 1 liter",
-            position: "5",
-            gradering: "Should be lactose free"
+            item: "milk 1 liter",
+            quantity: "5",
+            comment: "Should be lactose free"
           },
           {
             id: uuidv4(),
-            spelare: "bread",
-            position: "1",
-            gradering: "Choose a brand with less suggar"
+            item: "bread",
+            quantity: "1",
+            comment: "Choose a brand with less suggar"
           },
           {
             id: uuidv4(),
-            spelare: "Cheese",
-            position: "1",
-            gradering: "Cheddar or Goude"
+            item: "Cheese",
+            quantity: "1",
+            comment: "Cheddar or Goude"
           },
         ]
 
@@ -119,50 +117,51 @@
         });
       };
 
-      addSpelare = (spelare, position, gradering) => {
-        const newspelare = {
+      addItem = (item, quantity, comment) => {
+        const newitem = {
           id: uuidv4(),
-          spelare: spelare,
-          position: position,
-          gradering: gradering
+          item: item,
+          quantity: quantity,
+          comment: comment
         };
         this.setState({
-          groceryDB: [...this.state.groceryDB, newspelare]
+          groceryDB: [...this.state.groceryDB, newitem]
         });
       };
 
-      setUpdate = (updatedSpelare, id) => {
+      setUpdate = (updateditem, id) => {
         this.setState({
-          groceryDB: this.state.groceryDB.map(spelare => {
-            if (spelare.id === id) {
-              spelare.spelare = updatedSpelare
+          groceryDB: this.state.groceryDB.map(item => {
+            if (item.id === id) {
+              item.item = updateditem
             }
-            return spelare
+            return item
           }),
         })
       }
 
-      setUpdatePos = (updatedSpelarePos, id) => {
+      setUpdateQnt = (updatedItemQnt, id) => {
         this.setState({
-          groceryDB: this.state.groceryDB.map(spelare => {
-            if (spelare.id === id) {
-              spelare.position = updatedSpelarePos
+          groceryDB: this.state.groceryDB.map(item => {
+            if (item.id === id) {
+              item.quantity = updatedItemQnt
             }
-            return spelare
+            return item
           }),
         })
       }
 
-      setUpdateGrad = (updatedSpelareGrad, id) => {
+      setUpdatedComment = (updatedComment, id) => {
         this.setState({
-          groceryDB: this.state.groceryDB.map(spelare => {
-            if (spelare.id === id) {
-              spelare.gradering = updatedSpelareGrad
+          groceryDB: this.state.groceryDB.map(item => {
+            if (item.id === id) {
+              item.comment = updatedComment
             }
-            return spelare
+            return item
           }),
         })
       }
+
       render() {
         return (
           <div className="container">
@@ -175,10 +174,10 @@
                     fetchedQuote={this.state.fetchedQuote}
                     quoteAuthor={this.state.quoteAuthor}
                     handleChangeProps={this.handleChange}
-                    deleteSpelareProps={this.delspelare}
+                    deleteItemProps={this.delItem}
                     setUpdate={this.setUpdate}
-                    setUpdatePos={this.setUpdatePos}
-                    setUpdateGrad={this.setUpdateGrad}
+                    setUpdateQnt={this.setUpdateQnt}
+                    setUpdatedComment={this.setUpdatedComment}
                   />
                   <BaseItems addBaseItemsProps={this.addBaseItems} />
                   <QuoteFetcher addQuoteProps={this.addQuote} />
@@ -186,7 +185,7 @@
 
 
                   <br></br><br></br><br></br>
-                  <NewGrocery addSpelareProps={this.addSpelare} />
+                  <NewGrocery addItemProps={this.addItem} />
                 </div>
                 <RecipeList />
               </div>
@@ -332,7 +331,6 @@
 
 
 
-    //kan ligga i en SpelarTabell.js och importeras... 
     class GroceryList extends React.Component {
       render() {
         return (
@@ -344,16 +342,15 @@
                 <th>Quantity</th>
                 <th>Comment</th>
               </tr>
-              {this.props.groceryDB.map(spelare => (
-                //SpelareITabell(spelare)  //om funk, (då man kör hoks)
+              {this.props.groceryDB.map(item => (
                 <GroceryInList
-                  key={spelare.id}
-                  spelare={spelare}
+                  key={item.id}
+                  item={item}
                   handleChangeProps={this.props.handleChangeProps}
-                  deleteSpelareProps={this.props.deleteSpelareProps}
+                  deleteItemProps={this.props.deleteItemProps}
                   setUpdate={this.props.setUpdate}
-                  setUpdatePos={this.props.setUpdatePos}
-                  setUpdateGrad={this.props.setUpdateGrad}
+                  setUpdateQnt={this.props.setUpdateQnt}
+                  setUpdatedComment={this.props.setUpdatedComment}
                 />
               ))}
               <tr>
@@ -365,7 +362,6 @@
       }
     }
 
-    //kan ligga i en SpelareITabell.js och importeras... 
     class GroceryInList extends React.Component {
 
       state = {
@@ -403,8 +399,8 @@
           textDecoration: "line-through",
         }
 
-        //"destructure" the spelare and get variables from it
-        const { position, id, spelare, gradering } = this.props.spelare
+        //"destructure" the item and get variables from it
+        const { quantity, id, item, comment } = this.props.item
 
 
         //hantera edit-fältet
@@ -422,14 +418,14 @@
             <td className="item">
               <div style={viewMode}>
                 <span style={false ? completedStyle : null}>
-                  {spelare}
+                  {item}
                 </span>
               </div>
               <input
                 type="text"
                 style={editMode}
                 className="textInput"
-                value={spelare}
+                value={item}
                 onChange={e => {
                   this.props.setUpdate(e.target.value, id)
                 }}
@@ -439,15 +435,15 @@
             <td>
               <div style={viewMode}>
                 <span style={false ? completedStyle : null}>
-                  {position}
+                  {quantity}
                 </span>
               </div>
 
               <select style={editMode}
                 className="textInput"
-                value={position}
+                value={quantity}
                 onChange={e => {
-                  this.props.setUpdatePos(e.target.value, id)
+                  this.props.setUpdateQnt(e.target.value, id)
                 }}>
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -465,7 +461,7 @@
             <td>
               <div style={viewMode}>
                 <span style={false ? completedStyle : null}>
-                  {gradering}
+                  {comment}
                 </span>
               </div>
 
@@ -473,9 +469,9 @@
                 type="text"
                 style={editMode}
                 className="textInput"
-                value={gradering}
+                value={comment}
                 onChange={e => {
-                  this.props.setUpdateGrad(e.target.value, id)
+                  this.props.setUpdatedComment(e.target.value, id)
                 }}
                 onKeyDown={this.handleUpdatedDone}
               />
@@ -485,7 +481,7 @@
             <td>
               <button title="Make changes to the item" style={{ fontWeight: this.state.editing ? "bold" : "normal" }} onClick={this.handleEditing}
                 className="changebutton"> {this.state.btnText} <i className="fa fa-edit"></i></button>
-              <button title="Delete the item" onClick={() => this.props.deleteSpelareProps(id)} className="delbutton" > <i className="fa fa-trash"></i> </button>
+              <button title="Delete the item" onClick={() => this.props.deleteItemProps(id)} className="delbutton" > <i className="fa fa-trash"></i> </button>
             </td>
           </tr>
         )
@@ -507,18 +503,15 @@
     }
 
 
-    //kan ligga i en NySpelare.js och importeras... 
     class NewGrocery extends React.Component {
-
-
       state = {
-        spelare: "",
-        position: "",
-        gradering: ""
+        item: "",
+        quantity: "",
+        comment: ""
       };
 
 
-      //kan hantera flera text-fält, tack tillägget name="spelare" nedan
+      //could handle many fields, due to the name="item" extension below
       onChange = e => {
         this.setState({
           [e.target.name]: e.target.value,
@@ -527,20 +520,20 @@
 
       handleSubmit = e => {
         e.preventDefault()
-        if (this.state.spelare.trim() == "") {
+        if (this.state.item.trim() == "") {
           alert("Must have a name")
           return
         }
-        if (this.state.position == "" || this.state.position == "Nada") {
+        if (this.state.quantity == "" || this.state.quantity == "Nada") {
           alert("Must have a quantity")
           return
         }
-        this.props.addSpelareProps(this.state.spelare, this.state.position, this.state.gradering)
+        this.props.addItemProps(this.state.item, this.state.quantity, this.state.comment)
 
         //cleara state
         this.setState({
-          spelare: "",
-          gradering: ""
+          item: "",
+          comment: ""
         })
       }
 
@@ -556,13 +549,13 @@
                 placeholder="Item Name"
                 type="text"
                 className="form-input"
-                value={this.state.spelare}
-                name="spelare"
+                value={this.state.item}
+                name="item"
                 onChange={this.onChange}
               />
 
 
-              <select onChange={this.onChange} id="positioner" name="position" required title="Add number of tems here" placeholder="quantity" className="form-input">
+              <select onChange={this.onChange} id="quantities" name="quantity" required title="Add number of tems here" placeholder="quantity" className="form-input">
                 <option value="q">quantity</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -582,8 +575,8 @@
                 placeholder="Comment"
                 type="text"
                 className="form-input"
-                value={this.state.gradering}
-                name="gradering"
+                value={this.state.comment}
+                name="comment"
                 onChange={this.onChange}
               />
 
