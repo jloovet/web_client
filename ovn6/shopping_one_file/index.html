@@ -26,9 +26,9 @@
   <script type="text/babel">
 
     //kan ligga i en AllaSpelare.js och importeras... 
-    class AllaSpelare extends React.Component {
+    class AllGroceries extends React.Component {
       state = {
-        spelarDB: [
+        groceryDB: [
           {
             id: uuidv4(),
             spelare: "Some item",
@@ -36,13 +36,13 @@
             gradering: "Some sort of comment"
           },
         ],
-        fetchedQuote: "",
+        fetchedQuote: "She felt Britain should not be so dependent on coal. She was in favour of building up nuclear energy to break the dependence on coal, and the main opposition to nuclear came from the environment movement. Mrs. Thatcher thought she could trap them with the carbon emissions argument.",
         quoteAuthor: "",
       };
       s
       handleChange = (id) => {
         this.setState(prevState => ({
-          spelarDB: prevState.spelarDB.map(spelare => {
+          groceryDB: prevState.groceryDB.map(spelare => {
             if (spelare.id === id) {
               return {
                 ...spelare,
@@ -55,8 +55,8 @@
 
       delspelare = id => {
         this.setState({
-          spelarDB: [
-            ...this.state.spelarDB.filter(spelare => {
+          groceryDB: [
+            ...this.state.groceryDB.filter(spelare => {
               return spelare.id !== id;
             })
           ]
@@ -105,8 +105,8 @@
       addBaseItems = () => {
         //add all items from array
         this.setState({
-          spelarDB: this.baseItemsData
-          //spelarDB: [...this.state.spelarDB, this.baseItemsData]
+          groceryDB: this.baseItemsData
+          //groceryDB: [...this.state.groceryDB, this.baseItemsData]
         });
       };
 
@@ -127,13 +127,13 @@
           gradering: gradering
         };
         this.setState({
-          spelarDB: [...this.state.spelarDB, newspelare]
+          groceryDB: [...this.state.groceryDB, newspelare]
         });
       };
 
       setUpdate = (updatedSpelare, id) => {
         this.setState({
-          spelarDB: this.state.spelarDB.map(spelare => {
+          groceryDB: this.state.groceryDB.map(spelare => {
             if (spelare.id === id) {
               spelare.spelare = updatedSpelare
             }
@@ -144,7 +144,7 @@
 
       setUpdatePos = (updatedSpelarePos, id) => {
         this.setState({
-          spelarDB: this.state.spelarDB.map(spelare => {
+          groceryDB: this.state.groceryDB.map(spelare => {
             if (spelare.id === id) {
               spelare.position = updatedSpelarePos
             }
@@ -155,7 +155,7 @@
 
       setUpdateGrad = (updatedSpelareGrad, id) => {
         this.setState({
-          spelarDB: this.state.spelarDB.map(spelare => {
+          groceryDB: this.state.groceryDB.map(spelare => {
             if (spelare.id === id) {
               spelare.gradering = updatedSpelareGrad
             }
@@ -170,8 +170,8 @@
               <h1 className="sidTopp">The Professional Grocery Shopper Tool</h1>
               <div id="outer-container">
                 <div id="grocery-container">
-                  <SpelarTabell
-                    spelarDB={this.state.spelarDB}
+                  <GroceryList
+                    groceryDB={this.state.groceryDB}
                     fetchedQuote={this.state.fetchedQuote}
                     quoteAuthor={this.state.quoteAuthor}
                     handleChangeProps={this.handleChange}
@@ -186,7 +186,7 @@
 
 
                   <br></br><br></br><br></br>
-                  <NySpelare addSpelareProps={this.addSpelare} />
+                  <NewGrocery addSpelareProps={this.addSpelare} />
                 </div>
                 <RecipeList />
               </div>
@@ -278,7 +278,7 @@
         //set array as state
         this.setState({
           fetchedRecipeList: newArray
-          //spelarDB: [...this.state.spelarDB, this.baseItemsData]
+          //groceryDB: [...this.state.groceryDB, this.baseItemsData]
         });
       };
 
@@ -333,7 +333,7 @@
 
 
     //kan ligga i en SpelarTabell.js och importeras... 
-    class SpelarTabell extends React.Component {
+    class GroceryList extends React.Component {
       render() {
         return (
           <table>
@@ -344,9 +344,9 @@
                 <th>Quantity</th>
                 <th>Comment</th>
               </tr>
-              {this.props.spelarDB.map(spelare => (
+              {this.props.groceryDB.map(spelare => (
                 //SpelareITabell(spelare)  //om funk, (då man kör hoks)
-                <SpelareITabell
+                <GroceryInList
                   key={spelare.id}
                   spelare={spelare}
                   handleChangeProps={this.props.handleChangeProps}
@@ -366,7 +366,7 @@
     }
 
     //kan ligga i en SpelareITabell.js och importeras... 
-    class SpelareITabell extends React.Component {
+    class GroceryInList extends React.Component {
 
       state = {
         editing: false,
@@ -508,7 +508,7 @@
 
 
     //kan ligga i en NySpelare.js och importeras... 
-    class NySpelare extends React.Component {
+    class NewGrocery extends React.Component {
 
 
       state = {
@@ -600,7 +600,7 @@
 
     ReactDOM.render(
       <React.StrictMode>
-        <AllaSpelare />
+        <AllGroceries />
       </React.StrictMode >,
       document.getElementById("root")
     )
