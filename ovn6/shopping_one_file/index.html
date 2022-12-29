@@ -182,7 +182,7 @@
                   />
                   <BaseItems addBaseItemsProps={this.addBaseItems} />
                   <QuoteFetcher addQuoteProps={this.addQuote} />
-                  <button title="create a printable page" className="btn-print" onClick={this.printList} > Print <i class="fa fa-print"></i></button>
+                  <button title="create a printable page" className="btn-print" onClick={this.printList} > Print <i className="fa fa-print"></i></button>
 
 
                   <br></br><br></br><br></br>
@@ -293,7 +293,7 @@
         return (
           <div className="recipeList">
             <h2>Search for recipes</h2>
-            <button title="Search for recipes using a search string" onClick={this.fetchRecipeList} className="btn-search"> Search  <i class="fa fa-search"></i></button>
+            <button title="Search for recipes using a search string" onClick={this.fetchRecipeList} className="btn-search"> Search  <i className="fa fa-search"></i></button>
             <input type="text"
               className="searchText"
               name="searchKey"
@@ -357,7 +357,7 @@
                 />
               ))}
               <tr>
-                <td title={"A quote by " + this.props.quoteAuthor} className="quote" colspan="3"> {this.props.fetchedQuote}</td>
+                <td title={"A quote by " + this.props.quoteAuthor} className="quote" colSpan="3"> {this.props.fetchedQuote}</td>
               </tr>
             </tbody>
           </table>
@@ -484,8 +484,8 @@
 
             <td>
               <button title="Make changes to the item" style={{ fontWeight: this.state.editing ? "bold" : "normal" }} onClick={this.handleEditing}
-                className="changebutton"> {this.state.btnText} <i class="fa fa-edit"></i></button>
-              <button title="Delete the item" onClick={() => this.props.deleteSpelareProps(id)} className="delbutton" > <i class="fa fa-trash"></i> </button>
+                className="changebutton"> {this.state.btnText} <i className="fa fa-edit"></i></button>
+              <button title="Delete the item" onClick={() => this.props.deleteSpelareProps(id)} className="delbutton" > <i className="fa fa-trash"></i> </button>
             </td>
           </tr>
         )
@@ -528,11 +528,11 @@
       handleSubmit = e => {
         e.preventDefault()
         if (this.state.spelare.trim() == "") {
-          alert("Ange spelarens namn")
+          alert("Must have a name")
           return
         }
         if (this.state.position == "" || this.state.position == "Nada") {
-          alert("Ange spelarens position")
+          alert("Must have a quantity")
           return
         }
         this.props.addSpelareProps(this.state.spelare, this.state.position, this.state.gradering)
@@ -589,7 +589,7 @@
 
 
 
-              <button title="Adds the item to the grocery list" className="btn-submit">Submit <i class="fa fa-save"></i></button>
+              <button title="Adds the item to the grocery list" className="btn-submit">Submit <i className="fa fa-save"></i></button>
             </fieldset>
           </form>
         )
