@@ -29,7 +29,7 @@
 }
 
 .form-container {
-  width: 100%;
+  max-width: 500px;
   background-color:   #d8efdc;  
   padding:2px;
   border: 2px solid  hsl(129, 82%, 11%);
@@ -75,9 +75,9 @@ table th {
 table th,
 td {
   font-family: 'Caveat', cursive;
-  font-size: 20pt;
+  font-size: 16pt;
   text-align: left;
-  padding-right: 10pt;
+  
 }
 
 /* color every secont row i table*/
