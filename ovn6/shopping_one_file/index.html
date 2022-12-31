@@ -236,11 +236,68 @@
     }
 
     class RecipeList extends React.Component {
+      
       state = {
         fetchedRecipeList: [],
         searchKey: ""
       };
+      
 
+/*
+      state = {
+        fetchedRecipeList: [
+          {
+            name: "Recipe Name 1",
+            details: "Recipe Details 1"
+          },
+          {
+            name: "Recipe Name 2",
+            details: "Recipe Details 2"
+          },
+          {
+            name: "Recipe Name 2",
+            details: "Recipe Details 2"
+          },
+          {
+            name: "Recipe Name 2",
+            details: "Recipe Details 2"
+          },
+          {
+            name: "Recipe Name 2",
+            details: "Recipe Details 2"
+          },
+          {
+            name: "Recipe Name 2",
+            details: "Recipe Details 2"
+          },
+          {
+            name: "Recipe Name 2",
+            details: "Recipe Details 2"
+          },
+          {
+            name: "Recipe Name 2",
+            details: "Recipe Details 2"
+          },
+          {
+            name: "Recipe Name 2",
+            details: "Recipe Details 2"
+          },
+          {
+            name: "Recipe Name 2",
+            details: "Recipe Details 2"
+          },
+          {
+            name: "Recipe Name 2",
+            details: "Recipe Details 2"
+          },
+          {
+            name: "Recipe Name 2",
+            details: "Recipe Details 2"
+          },
+        ],
+        searchKey: ""
+      };
+*/
       //Note: limited to 500 calls / month (see https://rapidapi.com/apidojo/api/tasty/)
       //create new key before handing in ovn 6!
       options = {
@@ -354,7 +411,8 @@
                 />
               ))}
               <tr>
-                <td title={"A quote by " + this.props.quoteAuthor} className="quote" colSpan="3"> {this.props.fetchedQuote}</td>
+                <td title={"A quote by " + this.props.quoteAuthor} className="quote" colSpan="3"> 
+                  {this.props.fetchedQuote. substring(0, 180)}</td>
               </tr>
             </tbody>
           </table>
@@ -477,8 +535,7 @@
               />
 
             </td>
-
-            <td>
+            <td className="button-col">
               <button title="Make changes to the item" style={{ fontWeight: this.state.editing ? "bold" : "normal" }} onClick={this.handleEditing}
                 className="changebutton"> {this.state.btnText} <i className="fa fa-edit"></i></button>
               <button title="Delete the item" onClick={() => this.props.deleteItemProps(id)} className="delbutton" > <i className="fa fa-trash"></i> </button>
