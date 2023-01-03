@@ -175,7 +175,7 @@ textarea {
   white-space: nowrap
 }
 
-.scrollable 
+.table-container
 {
   max-height: 400px;
   max-width: 850px;

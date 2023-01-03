@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Print Öving 6</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.1.0/uuidv4.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="Print.css">
+    <link rel="icon" type="image/x-icon" href="favicon.png">
+    <!-- Add icon library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+
+<body style="background-image: url('paper.jpg'); background-size: cover;">
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        class GroceryList extends React.Component {
+            render() {
+                return (
+                    <div className="table-container">
+                        <table>
+                            <caption>My Grocery shopping List:</caption>
+                            <tbody>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Quantity</th>
+                                    <th>Comment</th>
+                                </tr>
+                                {this.props.groceryDB.map(item => (
+                                    <GroceryInList
+                                        key={item.id}
+                                        item={item}
+                                        handleChangeProps={this.props.handleChangeProps}
+                                        deleteItemProps={this.props.deleteItemProps}
+                                        setUpdate={this.props.setUpdate}
+                                        setUpdateQnt={this.props.setUpdateQnt}
+                                        setUpdatedComment={this.props.setUpdatedComment}
+                                        showButtons={this.props.showButtons}
+                                    />
+                                ))}
+                                <tr>
+                                    <td title={"A quote by " + this.props.quoteAuthor} className="quote" colSpan="3">
+                                        {this.props.fetchedQuote.substring(0, 180)}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                )
+            }
+        }
+
+        class GroceryInList extends React.Component {
+
+            state = {
+                editing: false,
+                btnText: ""
+
+            }
+
+            handleEditing = () => {
+                if (this.state.editing) {
+                    this.setState({
+                        editing: false,
+                        btnText: ""
+                    })
+                } else {
+                    this.setState({
+                        editing: true,
+                        btnText: "Save"
+                    })
+                }
+            }
+
+            handleUpdatedDone = event => {
+                //console.log(event.key)
+                if (event.key === "Enter") {
+                    this.setState({ editing: false, btnText: "" })
+                }
+            }
+
+            render() {
+                const completedStyle = {
+                    fontStyle: "italic",
+                    color: "#595959",
+                    opacity: 0.4,
+                    textDecoration: "line-through",
+                }
+
+                //"destructure" the item and get variables from it
+                const { quantity, id, item, comment } = this.props.item
+
+
+                //hantera edit-fältet
+                let viewMode = {}
+                let editMode = {}
+                if (this.state.editing) {
+                    viewMode.display = "none"
+                } else {
+                    editMode.display = "none"
+                }
+
+
+                return (
+                    <tr>
+                        <td className="item">
+                            <div style={viewMode}>
+                                <span style={false ? completedStyle : null}>
+                                    {item}
+                                </span>
+                            </div>
+                            <input
+                                type="text"
+                                style={editMode}
+                                className="textInput"
+                                value={item}
+                                onChange={e => {
+                                    this.props.setUpdate(e.target.value, id)
+                                }}
+                                onKeyDown={this.handleUpdatedDone}
+                            />
+                        </td>
+                        <td>
+                            <div style={viewMode}>
+                                <span style={false ? completedStyle : null}>
+                                    {quantity}
+                                </span>
+                            </div>
+
+                            <select style={editMode}
+                                className="textInput"
+                                value={quantity}
+                                onChange={e => {
+                                    this.props.setUpdateQnt(e.target.value, id)
+                                }}>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+
+                        </td>
+                        <td>
+                            <div style={viewMode}>
+                                <span style={false ? completedStyle : null}>
+                                    {comment}
+                                </span>
+                            </div>
+
+                            <input
+                                type="text"
+                                style={editMode}
+                                className="textInput"
+                                value={comment}
+                                onChange={e => {
+                                    this.props.setUpdatedComment(e.target.value, id)
+                                }}
+                                onKeyDown={this.handleUpdatedDone}
+                            />
+
+                        </td>
+                        {this.props.showButtons &&
+                            <td className="button-col">
+                                <button title="Make changes to the item" style={{ fontWeight: this.state.editing ? "bold" : "normal" }} onClick={this.handleEditing}
+                                    className="changebutton"> {this.state.btnText} <i className="fa fa-edit"></i></button>
+                                <button title="Delete the item" onClick={() => this.props.deleteItemProps(id)} className="delbutton" > <i className="fa fa-trash"></i> </button>
+                            </td>
+                        }
+                    </tr>
+                )
+            }
+        }
+
+
+        let groceryDB = JSON.parse( localStorage.getItem("groceryDB") )
+        let fetchedQuote = JSON.parse( localStorage.getItem("fetchedQuote") )
+        let quoteAuthor = JSON.parse( localStorage.getItem("quoteAuthor") )
+        
+        ReactDOM.render(
+            <React.StrictMode>
+                <GroceryList
+                    groceryDB={groceryDB}
+                    fetchedQuote={fetchedQuote}
+                    quoteAuthor={quoteAuthor}
+                    showButtons={false}
+                  />
+            </React.StrictMode >,
+            document.getElementById("root")
+        )
+
+    </script>
+</body>
+
+</html>

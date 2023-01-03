@@ -1,0 +1,83 @@
+
+
+.shoppinglist { 
+  color: blue;
+}
+
+
+
+.input-text::placeholder {
+  color: #000;
+}
+
+
+
+.input-text,
+.input-submit {
+  height: 45px;
+  outline: none;
+  border: none;
+}
+
+.textInput {
+  width: 100%;
+  border: 1px solid #dfdfdf;
+}
+
+table th {
+  font-weight: bold;
+}
+
+table th,
+td {
+  font-family: 'Caveat', cursive;
+  font-size: 16pt;
+  text-align: left;
+  
+}
+
+/* color every secont row i table*/
+table tr:nth-child(even){background-color: hwb(0 79% 18%);}
+
+table {
+  border: 2px solid  hsl(129, 82%, 11%);
+  border-radius:10px;
+  background-color: white;
+  min-width: 540px;
+}
+
+
+
+/* lägga title i border via <p> ? */
+.myDiv p {
+  margin-top: -0.5em;
+  margin-left: 10px;
+  background-color: white;
+  display: block;
+  width: 150px;
+}
+
+
+
+caption {
+  color:  hsl(129, 82%, 11%);
+  font-family: cursive;
+  font-size: 20pt;
+  text-align: left;
+}
+
+
+.quote  {
+  text-shadow: 1px 1px green;
+  max-lines: 2;
+}
+
+textarea {  
+  border: 1px solid  hsl(129, 82%, 11%);
+}
+
+
+.table-container
+{
+  max-width: 850px;
+}

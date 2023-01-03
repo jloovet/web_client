@@ -58,7 +58,11 @@
 
 
       printList = () => {
-        //create a new page for printing nice list
+        //use local storage to transer data to print page
+        localStorage.setItem("groceryDB", JSON.stringify(this.state.groceryDB))
+        localStorage.setItem("fetchedQuote", JSON.stringify(this.state.fetchedQuote))
+        localStorage.setItem("quoteAuthor", JSON.stringify(this.state.quoteAuthor))
+        window.location = "print.html"
       };
 
       baseItemsData =
@@ -180,6 +184,7 @@
                     setUpdate={this.setUpdate}
                     setUpdateQnt={this.setUpdateQnt}
                     setUpdatedComment={this.setUpdatedComment}
+                    showButtons={false}
                   />
                   <BaseItems addBaseItemsProps={this.addBaseItems} />
                   <QuoteFetcher addQuoteProps={this.addQuote} />
@@ -327,8 +332,8 @@
 
       render() {
         return (
-         
-            <li>{this.props.name}
+
+          <li>{this.props.name}
             <ul>
               <li className="recipeDetails" >
                 <textarea rows="3" cols="45" readOnly={true} defaultValue={this.props.details}></textarea>
@@ -344,7 +349,7 @@
     class GroceryList extends React.Component {
       render() {
         return (
-          <div className="scrollable">
+          <div className="table-container">
             <table>
               <caption>My Grocery shopping List:</caption>
               <tbody>
@@ -362,6 +367,7 @@
                     setUpdate={this.props.setUpdate}
                     setUpdateQnt={this.props.setUpdateQnt}
                     setUpdatedComment={this.props.setUpdatedComment}
+                    showButtons={this.props.showButtons}
                   />
                 ))}
                 <tr>
@@ -490,11 +496,13 @@
               />
 
             </td>
-            <td className="button-col">
-              <button title="Make changes to the item" style={{ fontWeight: this.state.editing ? "bold" : "normal" }} onClick={this.handleEditing}
-                className="changebutton"> {this.state.btnText} <i className="fa fa-edit"></i></button>
-              <button title="Delete the item" onClick={() => this.props.deleteItemProps(id)} className="delbutton" > <i className="fa fa-trash"></i> </button>
-            </td>
+            {this.props.showButtons &&
+              <td className="button-col">
+                <button title="Make changes to the item" style={{ fontWeight: this.state.editing ? "bold" : "normal" }} onClick={this.handleEditing}
+                  className="changebutton"> {this.state.btnText} <i className="fa fa-edit"></i></button>
+                <button title="Delete the item" onClick={() => this.props.deleteItemProps(id)} className="delbutton" > <i className="fa fa-trash"></i> </button>
+              </td>
+            }
           </tr>
         )
       }
