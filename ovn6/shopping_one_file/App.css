@@ -18,6 +18,12 @@
   font-family: cursive;
 }
 
+#search-header {
+  font-size: 20px;
+  color:  hsl(129, 82%, 11%);
+  font-family: cursive;
+}
+
 
 #outer-container{
   display: flex; /* or inline-flex */
@@ -29,7 +35,7 @@
 }
 
 .form-container {
-  max-width: 500px;
+  max-width: 540px;
   background-color:   #d8efdc;  
   padding:2px;
   border: 2px solid  hsl(129, 82%, 11%);
@@ -87,7 +93,7 @@ table {
   border: 2px solid  hsl(129, 82%, 11%);
   border-radius:10px;
   background-color: white;
-  min-width: 500px;
+  min-width: 540px;
 }
 
 .btn-base  {
@@ -123,8 +129,9 @@ legend {
 }
 
 caption {
-  font-family: 'Caveat', cursive;
-  font-size: 30pt;
+  color:  hsl(129, 82%, 11%);
+  font-family: cursive;
+  font-size: 20pt;
   text-align: left;
 }
 
@@ -170,7 +177,8 @@ textarea {
 
 .scrollable 
 {
-  overflow: scroll
+  max-height: 400px;
+  overflow: scroll;
 }
 
 

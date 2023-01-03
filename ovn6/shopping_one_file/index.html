@@ -26,14 +26,8 @@
 
     class AllGroceries extends React.Component {
       state = {
-        groceryDB: [
-          {
-            id: uuidv4(),
-            item: "Some item",
-            quantity: "Some quantity",
-            comment: "Some sort of comment"
-          },
-        ],
+        groceryDB: [],
+        baseItemsAdded: false,
         fetchedQuote: "",
         //fetchedQuote: "She felt Britain should not be so dependent on coal. She was in favour of building up nuclear energy to break the dependence on coal, and the main opposition to nuclear came from the environment movement. Mrs. Thatcher thought she could trap them with the carbon emissions argument.",
         quoteAuthor: "",
@@ -102,10 +96,17 @@
         ]
 
       addBaseItems = () => {
+        if (this.state.baseItemsAdded) {
+          alert("Base items has already been added!");
+          return;
+        }
         //add all items from array
         this.setState({
           //groceryDB: this.baseItemsData
           groceryDB: [...this.state.groceryDB, ...this.baseItemsData]
+        });
+        this.setState({
+          baseItemsAdded: true
         });
       };
 
@@ -237,68 +238,13 @@
     }
 
     class RecipeList extends React.Component {
-      
+
       state = {
         fetchedRecipeList: [],
         searchKey: ""
       };
-      
 
-/*
-      state = {
-        fetchedRecipeList: [
-          {
-            name: "Recipe Name 1",
-            details: "Recipe Details 1"
-          },
-          {
-            name: "Recipe Name 2",
-            details: "Recipe Details 2"
-          },
-          {
-            name: "Recipe Name 2",
-            details: "Recipe Details 2"
-          },
-          {
-            name: "Recipe Name 2",
-            details: "Recipe Details 2"
-          },
-          {
-            name: "Recipe Name 2",
-            details: "Recipe Details 2"
-          },
-          {
-            name: "Recipe Name 2",
-            details: "Recipe Details 2"
-          },
-          {
-            name: "Recipe Name 2",
-            details: "Recipe Details 2"
-          },
-          {
-            name: "Recipe Name 2",
-            details: "Recipe Details 2"
-          },
-          {
-            name: "Recipe Name 2",
-            details: "Recipe Details 2"
-          },
-          {
-            name: "Recipe Name 2",
-            details: "Recipe Details 2"
-          },
-          {
-            name: "Recipe Name 2",
-            details: "Recipe Details 2"
-          },
-          {
-            name: "Recipe Name 2",
-            details: "Recipe Details 2"
-          },
-        ],
-        searchKey: ""
-      };
-*/
+
       //Note: limited to 500 calls / month (see https://rapidapi.com/apidojo/api/tasty/)
       //create new key before handing in ovn 6!
       options = {
@@ -316,7 +262,7 @@
           .catch(err => console.error(err));
       };
 
-      
+
 
       setStateFromResponse = (responseAsJSON) => {
         var newArray = []
@@ -329,7 +275,7 @@
               "name": responseAsJSON.results[key].name,
               "details": responseAsJSON.results[key].description,
               "id": responseAsJSON.results[key].id
-            }                                        
+            }
             newArray.push(obj)
           }
         }
@@ -354,7 +300,7 @@
       render() {
         return (
           <div className="recipeList">
-            <h2>Search for recipes</h2>
+            <h2 id="search-header">Search for recipes</h2>
             <button title="Search for recipes using a search string" onClick={this.fetchRecipeList} className="btn-search"> Search  <i className="fa fa-search"></i></button>
             <input type="text"
               className="searchText"
@@ -384,7 +330,7 @@
           <div>
             <li key={this.props.id} >{this.props.name}</li>
             <ul>
-              <li key={this.props.id +1} className="recipeDetails" >
+              <li key={this.props.id + 1} className="recipeDetails" >
                 <textarea rows="3" cols="45" readOnly={true} defaultValue={this.props.details}></textarea>
               </li>
             </ul>
@@ -398,31 +344,33 @@
     class GroceryList extends React.Component {
       render() {
         return (
-          <table>
-            <caption>My Grocery shopping List:</caption>
-            <tbody>
-              <tr>
-                <th>Name</th>
-                <th>Quantity</th>
-                <th>Comment</th>
-              </tr>
-              {this.props.groceryDB.map(item => (
-                <GroceryInList
-                  key={item.id}
-                  item={item}
-                  handleChangeProps={this.props.handleChangeProps}
-                  deleteItemProps={this.props.deleteItemProps}
-                  setUpdate={this.props.setUpdate}
-                  setUpdateQnt={this.props.setUpdateQnt}
-                  setUpdatedComment={this.props.setUpdatedComment}
-                />
-              ))}
-              <tr>
-                <td title={"A quote by " + this.props.quoteAuthor} className="quote" colSpan="3"> 
-                  {this.props.fetchedQuote. substring(0, 180)}</td>
-              </tr>
-            </tbody>
-          </table>
+          <div className="scrollable">
+            <table>
+              <caption>My Grocery shopping List:</caption>
+              <tbody>
+                <tr>
+                  <th>Name</th>
+                  <th>Quantity</th>
+                  <th>Comment</th>
+                </tr>
+                {this.props.groceryDB.map(item => (
+                  <GroceryInList
+                    key={item.id}
+                    item={item}
+                    handleChangeProps={this.props.handleChangeProps}
+                    deleteItemProps={this.props.deleteItemProps}
+                    setUpdate={this.props.setUpdate}
+                    setUpdateQnt={this.props.setUpdateQnt}
+                    setUpdatedComment={this.props.setUpdatedComment}
+                  />
+                ))}
+                <tr>
+                  <td title={"A quote by " + this.props.quoteAuthor} className="quote" colSpan="3">
+                    {this.props.fetchedQuote.substring(0, 180)}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         )
       }
     }
