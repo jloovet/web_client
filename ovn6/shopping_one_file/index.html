@@ -381,7 +381,9 @@
                   }
                   {this.props.usedInPrintView &&
                     <td title={"A quote by " + this.props.quoteAuthor} className="quote" colSpan="3">
-                      {this.props.fetchedQuote + "  -A quote by "}  {this.props.quoteAuthor}</td>
+                      {this.props.fetchedQuote}
+                      <br></br>
+                      {"  -A quote by " + this.props.quoteAuthor}</td>
                   }
                 </tr>
               </tbody>
