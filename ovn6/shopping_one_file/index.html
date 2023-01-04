@@ -30,7 +30,7 @@
         baseItemsAdded: false,
         //fetchedQuote: "",
         fetchedQuote: "She felt Britain should not be so dependent on coal. She was in favour of building up nuclear energy to break the dependence on coal, and the main opposition to nuclear came from the environment movement. Mrs. Thatcher thought she could trap them with the carbon emissions argument.",
-        quoteAuthor: "",
+        quoteAuthor: "Sune Mangs",
       };
       s
       handleChange = (id) => {
@@ -184,7 +184,7 @@
                     setUpdate={this.setUpdate}
                     setUpdateQnt={this.setUpdateQnt}
                     setUpdatedComment={this.setUpdatedComment}
-                    showButtons={false}
+                    usedInPrintView={false}
                   />
                   <BaseItems addBaseItemsProps={this.addBaseItems} />
                   <QuoteFetcher addQuoteProps={this.addQuote} />
@@ -261,6 +261,10 @@
       };
 
       fetchRecipeList = () => {
+        if (this.state.searchKey.trim() == "") {
+          alert("Must give a search string")
+          return
+        }
         fetch('https://tasty.p.rapidapi.com/recipes/list?from=0&size=20&tags=under_30_minutes&q=' + this.state.searchKey, this.options)
           .then(response => response.json())
           .then(response => this.setStateFromResponse(response))
@@ -367,12 +371,18 @@
                     setUpdate={this.props.setUpdate}
                     setUpdateQnt={this.props.setUpdateQnt}
                     setUpdatedComment={this.props.setUpdatedComment}
-                    showButtons={this.props.showButtons}
+                    usedInPrintView={this.props.usedInPrintView}
                   />
                 ))}
                 <tr>
-                  <td title={"A quote by " + this.props.quoteAuthor} className="quote" colSpan="3">
-                    {this.props.fetchedQuote.substring(0, 180)}</td>
+                  {!this.props.usedInPrintView &&
+                    <td title={"A quote by " + this.props.quoteAuthor} className="quote" colSpan="3">
+                      {this.props.fetchedQuote.substring(0, 180)}</td>
+                  }
+                  {this.props.usedInPrintView &&
+                    <td title={"A quote by " + this.props.quoteAuthor} className="quote" colSpan="3">
+                      {this.props.fetchedQuote + "  -A quote by "}  {this.props.quoteAuthor}</td>
+                  }
                 </tr>
               </tbody>
             </table>
@@ -496,7 +506,7 @@
               />
 
             </td>
-            {this.props.showButtons &&
+            {!this.props.usedInPrintView &&
               <td className="button-col">
                 <button title="Make changes to the item" style={{ fontWeight: this.state.editing ? "bold" : "normal" }} onClick={this.handleEditing}
                   className="changebutton"> {this.state.btnText} <i className="fa fa-edit"></i></button>
@@ -565,7 +575,7 @@
             <fieldset>
               <legend>Add new Grocery Item:</legend>
               <input
-                required title="Add Item Name here"
+                title="Add Item Name here"
                 placeholder="Item Name"
                 type="text"
                 className="form-input"
@@ -591,7 +601,7 @@
 
 
               <input
-                required title="Add Item Name here"
+                title="Add comment here"
                 placeholder="Comment"
                 type="text"
                 className="form-input"

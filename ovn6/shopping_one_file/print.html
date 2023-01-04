@@ -44,12 +44,18 @@
                                         setUpdate={this.props.setUpdate}
                                         setUpdateQnt={this.props.setUpdateQnt}
                                         setUpdatedComment={this.props.setUpdatedComment}
-                                        showButtons={this.props.showButtons}
+                                        usedInPrintView={this.props.usedInPrintView}
                                     />
                                 ))}
                                 <tr>
-                                    <td title={"A quote by " + this.props.quoteAuthor} className="quote" colSpan="3">
-                                        {this.props.fetchedQuote.substring(0, 180)}</td>
+                                    {!this.props.usedInPrintView &&
+                                        <td title={"A quote by " + this.props.quoteAuthor} className="quote" colSpan="3">
+                                            {this.props.fetchedQuote.substring(0, 180)}</td>
+                                    }
+                                    {this.props.usedInPrintView &&
+                                        <td title={"A quote by " + this.props.quoteAuthor} className="quote" colSpan="3">
+                                            {this.props.fetchedQuote + "  -A quote by "}  {this.props.quoteAuthor}</td>
+                                    }
                                 </tr>
                             </tbody>
                         </table>
@@ -173,7 +179,7 @@
                             />
 
                         </td>
-                        {this.props.showButtons &&
+                        {!this.props.usedInPrintView &&
                             <td className="button-col">
                                 <button title="Make changes to the item" style={{ fontWeight: this.state.editing ? "bold" : "normal" }} onClick={this.handleEditing}
                                     className="changebutton"> {this.state.btnText} <i className="fa fa-edit"></i></button>
@@ -186,18 +192,18 @@
         }
 
 
-        let groceryDB = JSON.parse( localStorage.getItem("groceryDB") )
-        let fetchedQuote = JSON.parse( localStorage.getItem("fetchedQuote") )
-        let quoteAuthor = JSON.parse( localStorage.getItem("quoteAuthor") )
-        
+        let groceryDB = JSON.parse(localStorage.getItem("groceryDB"))
+        let fetchedQuote = JSON.parse(localStorage.getItem("fetchedQuote"))
+        let quoteAuthor = JSON.parse(localStorage.getItem("quoteAuthor"))
+
         ReactDOM.render(
             <React.StrictMode>
                 <GroceryList
                     groceryDB={groceryDB}
                     fetchedQuote={fetchedQuote}
                     quoteAuthor={quoteAuthor}
-                    showButtons={false}
-                  />
+                    usedInPrintView={true}
+                />
             </React.StrictMode >,
             document.getElementById("root")
         )
