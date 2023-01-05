@@ -261,7 +261,7 @@
       };
 
       fetchRecipeList = () => {
-        if (this.state.searchKey.trim() == "") {
+        if (this.state.searchKey.trim() === "") {
           alert("Must give a search string")
           return
         }
@@ -294,7 +294,7 @@
           //groceryDB: [...this.state.groceryDB, this.baseItemsData]
         });
         //check for empty result
-        if (this.state.fetchedRecipeList.length == 0) {
+        if (this.state.fetchedRecipeList.length === 0) {
           alert("No recipes found for current search string!");
         }
       };
@@ -552,11 +552,11 @@
 
       handleSubmit = e => {
         e.preventDefault()
-        if (this.state.item.trim() == "") {
+        if (this.state.item.trim() === "") {
           alert("Must have a name")
           return
         }
-        if (this.state.quantity == "" || this.state.quantity == "Nada") {
+        if (this.state.quantity == "" || this.state.quantity === "Nada") {
           alert("Must have a quantity")
           return
         }
